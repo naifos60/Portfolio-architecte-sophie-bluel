@@ -5,7 +5,7 @@ const objectFilter = document.querySelector("#object-filter");
 const appartementFilter = document.querySelector("#appartement-filter");
 const hotelFilter = document.querySelector("#hotel-filter");
 
-
+/******function **********/
 async function addWorks(){
     await fetch("http://localhost:5678/api/works",{
     method : "GET",
@@ -78,9 +78,10 @@ async function addWorks(){
    })
 };
 
+/****** ajout de la gallerie ******/
 addWorks();
 
-
+/****** listener filtre *********/
 allFilters.addEventListener("click", function(){
     console.log("all checked");
     gallery.innerHTML = "";
