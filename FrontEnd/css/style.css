@@ -254,9 +254,14 @@ input[type = "submit"]:hover{
 
 footer{
 	background: #FFFFFF;
-	width: 100%;
+	margin-right: -20%;
+	margin-left: -20%;
 	height: 60px;
 }
+footer nav{
+	padding-right: 12%;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
@@ -264,6 +269,8 @@ footer nav ul {
 }
 footer nav li{
 	margin-top: 24px;
+	font-weight: 300;
+	font-size: 14px;
 }
 /********* login ********/
 
@@ -297,5 +304,10 @@ footer nav li{
 	
 }
 .footer_login{
+	margin-right: -20%;
+	margin-left: -20%;
 	margin-top: 355px;
+}
+.footer_login nav{
+	padding-right: 8%;
 }
