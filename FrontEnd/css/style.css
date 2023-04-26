@@ -125,6 +125,41 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+.filter form{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 51px auto;
+	gap: 10px;
+}
+.filter label{
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	width: auto;
+	height: 37px;
+	font-weight: 700;
+	font-size: 16px;
+	padding: 0px 37px;
+	border: solid 1px #1D6154;
+	border-radius: 60px;
+	color: #1D6154;
+	background-color: white;
+	cursor: pointer;
+	
+}
+.filter input{
+	display: none;
+}
+.filter input[type = "radio"]:checked +label{
+	color: white;
+	background-color: #1D6154;
+	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.15);
+}
 .gallery {
 	width: 100%;
 	display: grid;
