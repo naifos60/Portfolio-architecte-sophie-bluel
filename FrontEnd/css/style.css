@@ -203,6 +203,11 @@ li a:hover{
 	width: 100%;
 
 }
+.gallery figcaption{
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 15.25px;
+}
 #contact {
 	width: 50%;
 margin: auto;
