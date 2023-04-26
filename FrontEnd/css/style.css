@@ -159,8 +159,13 @@ li:hover {
 	border-radius: 60px;
 	color: #1D6154;
 	background-color: white;
-	cursor: pointer;
-	
+	cursor: pointer;	
+}
+.filter label:hover{
+	color: white;
+	background-color: #1D6154;
+	box-shadow:0px 6px 4px rgba(0, 0, 0, 0.15);
+	filter: brightness(1.1);
 }
 .filter input{
 	display: none;
