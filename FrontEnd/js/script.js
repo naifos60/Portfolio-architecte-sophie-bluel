@@ -78,7 +78,7 @@ async function addWorks(){
    })
 };
 
-/****** ajout de la gallerie ******/
+/****** ajout initial de la gallerie ******/
 addWorks();
 
 /****** listener filtre *********/
