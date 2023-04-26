@@ -189,6 +189,7 @@ li a:hover{
 	color: white;
 	background-color: #1D6154;
 	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.15);
+	
 }
 .gallery {
 	width: 100%;
@@ -284,7 +285,7 @@ footer nav li{
 .form_login input{
 	width: 379px;
 	height: 51px;
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	margin: 7px auto 30px;
 	border: none;
 	outline: none;

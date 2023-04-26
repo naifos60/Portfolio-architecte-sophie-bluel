@@ -17,7 +17,6 @@ async function addWorks(){
 }).then(datas => {
     if(objectFilter.checked){
         console.log("objet checked");
-        gallery.innerHTML = "";
         const object = datas.filter(data => data.categoryId === 1);
         for(let i = 0; i < object.length; i++){
             console.log(object[i]);
@@ -33,7 +32,6 @@ async function addWorks(){
     }}
     else if(appartementFilter.checked){
         console.log("appartement checked");
-        gallery.innerHTML = "";
         const appartement = datas.filter(data => data.categoryId === 2);
         for(let i = 0; i < appartement.length; i++){
             console.log(appartement[i]);
@@ -49,7 +47,6 @@ async function addWorks(){
     }}
     else if(hotelFilter.checked){
         console.log("hotel checked");
-        gallery.innerHTML = "";
         const hotel = datas.filter(data => data.categoryId === 3);
         for(let i = 0; i < hotel.length; i++){
             console.log(hotel[i]);
