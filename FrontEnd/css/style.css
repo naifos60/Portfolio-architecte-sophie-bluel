@@ -308,6 +308,12 @@ footer nav li{
 	cursor: pointer;
 	
 }
+.error_message{
+	color: red;
+	margin-top: -20px;
+	margin-bottom: 15px;
+	display: none;
+}
 .footer_login{
 	margin-right: -20%;
 	margin-left: -20%;
@@ -315,4 +321,60 @@ footer nav li{
 }
 .footer_login nav{
 	padding-right: 12%;
+}
+/******* edit *******/
+.header_edit{
+	display: flex;
+	flex-direction: column;
+}
+.edit_title-nav{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.edit_bannier{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 21px;
+	position: relative;
+	top: -50px;
+	background: black;
+	color: white;
+	width: 150%;
+	height: 59px;
+	margin-left: -25%;
+}
+.edit_button{
+	width: 216px;
+	height: 38px;
+	font-weight: 500;
+	font-size: 14px;
+	border: none;
+	border-radius: 60px;
+	background-color: #FFFFFF;
+	color: black;
+	cursor: pointer;
+}
+#portfolio .edit_h2{
+	margin-left: 135px;
+	margin-bottom: 92px;
+	
+}
+#portfolio h2 i{
+	font-size: 15px;
+	color: #000000;
+	margin-left: 34.64px;
+	margin-right: 8px;
+}
+#portfolio h2 span{
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16.42px;
+	color: #000000;
+}
+#portfolio h2 a{
+	text-decoration: none;
 }
