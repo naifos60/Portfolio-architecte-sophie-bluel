@@ -6,6 +6,21 @@ const appartementFilter = document.querySelector("#appartement-filter");
 const hotelFilter = document.querySelector("#hotel-filter");
 
 /******function **********/
+function generateWork(array){
+    for(let i = 0; i < array.length; i++){
+        console.log(array[i]);
+        let figure = document.createElement("figure");
+        let img = document.createElement("img");
+        let figCaption = document.createElement("figcaption");
+        img.src = array[i].imageUrl;
+        img.alt = array[i].title;
+        figCaption.innerHTML = array[i].title;
+        figure.appendChild(img);
+        figure.appendChild(figCaption);
+        gallery.appendChild(figure);
+    }
+};
+
 async function addWorks(){
     await fetch("http://localhost:5678/api/works",{
     method : "GET",
@@ -18,60 +33,21 @@ async function addWorks(){
     if(objectFilter.checked){
         console.log("objet checked");
         const object = datas.filter(data => data.categoryId === 1);
-        for(let i = 0; i < object.length; i++){
-            console.log(object[i]);
-            let figure = document.createElement("figure");
-            let img = document.createElement("img");
-            let figCaption = document.createElement("figcaption");
-            img.src = object[i].imageUrl;
-            img.alt = object[i].title;
-            figCaption.innerHTML = object[i].title;
-            figure.appendChild(img);
-            figure.appendChild(figCaption);
-            gallery.appendChild(figure);
-    }}
+        generateWork(object);
+    }
     else if(appartementFilter.checked){
         console.log("appartement checked");
         const appartement = datas.filter(data => data.categoryId === 2);
-        for(let i = 0; i < appartement.length; i++){
-            console.log(appartement[i]);
-            let figure = document.createElement("figure");
-            let img = document.createElement("img");
-            let figCaption = document.createElement("figcaption");
-            img.src = appartement[i].imageUrl;
-            img.alt = appartement[i].title;
-            figCaption.innerHTML = appartement[i].title;
-            figure.appendChild(img);
-            figure.appendChild(figCaption);
-            gallery.appendChild(figure);
-    }}
+        generateWork(appartement);
+    }
     else if(hotelFilter.checked){
         console.log("hotel checked");
         const hotel = datas.filter(data => data.categoryId === 3);
-        for(let i = 0; i < hotel.length; i++){
-            console.log(hotel[i]);
-            let figure = document.createElement("figure");
-            let img = document.createElement("img");
-            let figCaption = document.createElement("figcaption");
-            img.src = hotel[i].imageUrl;
-            img.alt = hotel[i].title;
-            figCaption.innerHTML = hotel[i].title;
-            figure.appendChild(img);
-            figure.appendChild(figCaption);
-            gallery.appendChild(figure);
-    }}
+        generateWork(hotel);
+    }
     else{
-        for(let i = 0; i < datas.length; i++){
-            let figure = document.createElement("figure");
-            let img = document.createElement("img");
-            let figCaption = document.createElement("figcaption");
-             img.src = datas[i].imageUrl;
-            img.alt = datas[i].title;
-            figCaption.innerHTML = datas[i].title;
-            figure.appendChild(img);
-            figure.appendChild(figCaption);
-            gallery.appendChild(figure);
-      }}
+        generateWork(datas);
+      }
    })
 };
 
