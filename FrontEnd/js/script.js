@@ -6,6 +6,12 @@ const appartementFilter = document.querySelector("#appartement-filter");
 const hotelFilter = document.querySelector("#hotel-filter");
 
 /******function **********/
+/**
+ * la fonction prend un tableau comme argument puis récupère
+ *  une image, un titre et un texte pour chaque élément
+ *  de ce tableau afin de créer un projet pour ensuite ajouter ce projet à la gallerie.
+ * @param {[]} array 
+ */
 function generateWork(array){
     for(let i = 0; i < array.length; i++){
         console.log(array[i]);
