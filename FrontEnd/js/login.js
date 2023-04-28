@@ -16,10 +16,10 @@ async function logUser(){
         body: identify
     }).then(response => {
         if(response.ok){
-            window.location.assign("./edit.html");
+            window.location.assign("http://127.0.0.1:5500/FrontEnd/edit.html");
         }else{
             document.querySelector(".error_message").style.display = "block";
-           console.log(response); 
+           console.log(response.body); 
         }
     })
     console.log(identify);

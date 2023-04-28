@@ -134,6 +134,7 @@ li a:hover{
 }
 #introduction h2 {
 	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 #introduction p {
@@ -357,6 +358,36 @@ footer nav li{
 	background-color: #FFFFFF;
 	color: black;
 	cursor: pointer;
+}
+#introduction figure i{
+	text-decoration: none;
+	font-size: 15px;
+	color: #000000;
+	margin: 16px 8px 0 70px;
+}
+#introduction figure span{
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16.42px;
+	color: #000000;
+}
+#introduction figure a{
+	text-decoration: none;
+}
+#introduction article i{
+	text-decoration: none;
+	font-size: 15px;
+	color: #000000;
+	margin: -8px 8px 0px 0px;
+}
+#introduction article span{
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16.42px;
+	color: #000000;
+}
+#introduction article a{
+	text-decoration: none;
 }
 #portfolio .edit_h2{
 	margin-left: 135px;
