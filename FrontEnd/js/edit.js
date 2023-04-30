@@ -29,25 +29,40 @@ function generateWork(array){
         gallery.appendChild(figure);
     }
 };
+/**
+ * la function prend en paramètre un tableau d'éléments puis le parcours,
+ * créer un projet en récuperant une image, une icone delete contenant en data l'id du projet, et un texte éditer,
+ * puis ajoute chaque projet à la gallerie de la modal
+ * @param {[]} array 
+ */
 function modalGenerateWork(array){
     for(let i = 0; i < array.length; i++){
         let figure = document.createElement("figure");
         let img = document.createElement("img");
         let figCaption = document.createElement("figcaption");
         let modalIcone = document.createElement("i");
+        let dataId = array[i].id
         img.src = array[i].imageUrl;
         modalIcone.setAttribute("class","fa-solid fa-trash-can");
         figCaption.innerHTML = "éditer";
+        modalIcone.setAttribute("data-id", dataId);
         figure.appendChild(img);
         figCaption.appendChild(modalIcone);
         figure.appendChild(figCaption);
         galleryModal.appendChild(figure);
     }
 };
+/**
+ * la fonction permet d'ajouter ou de retirer la class active au container principal de la modal
+ */
 function toggleModal(){
     modalContainer.classList.toggle("active");
 }
-
+/**
+ * la fonction fait appel à l'API mis a disposition recupère une promise contenant un tableau d'objet,
+ * récupère ce tableau dans une variable datas quelle place en paramètre  des fonctions qui génères les projets
+ * dans la gallerie du site et dans la gallerie de la modal 
+ */
 async function addWorks(){
     await fetch("http://localhost:5678/api/works",{
     method : "GET",
