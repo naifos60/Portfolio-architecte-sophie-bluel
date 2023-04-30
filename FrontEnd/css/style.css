@@ -323,6 +323,9 @@ footer nav li{
 	border: none;
 	outline: none;
 }
+#mail_log, #password_log{
+	background: #FFFFFF;
+}
 .form_login input[type = "submit"]{
 	width: 179px;
 	height: 36px;
@@ -509,6 +512,7 @@ footer nav li{
 	position: relative;
 	top: -102px;
 	right: -25px;
+	cursor: pointer;
 }
 .gallery-modal figure > figcaption{
 	font-weight: 400;
