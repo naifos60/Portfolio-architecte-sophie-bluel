@@ -63,6 +63,13 @@ header {
 	justify-content: space-between;
 	margin: 50px 0;
 }
+header .nav{
+	display: flex;
+	flex-direction: row;
+}
+.header_nav{
+	margin-left: 480px;
+}
 header li{
 	margin-left: 45px;
 	
@@ -135,6 +142,7 @@ li a:hover{
 
 #introduction article {
 	flex: 1;
+	margin-bottom: 70px;
 }
 #introduction h2 {
 	margin-bottom: 1em;
@@ -391,7 +399,7 @@ footer nav li{
 #introduction figure span{
 	font-weight: 400;
 	font-size: 14px;
-	line-height: 16.42px;
+	line-height: 47px;
 	color: #000000;
 }
 #introduction figure a{
@@ -406,7 +414,7 @@ footer nav li{
 #introduction article span{
 	font-weight: 400;
 	font-size: 14px;
-	line-height: 16.42px;
+	line-height: 1.5px;
 	color: #000000;
 }
 #introduction article a{
@@ -504,11 +512,12 @@ footer nav li{
 	width: 78px;
 	height: 104px;
 }
-.gallery-modal i{
+.delete-btn{
 	padding: 4px;
 	font-size: 9px;
 	background-color: #000000;
 	color: #FFFFFF;
+	border: none;
 	position: relative;
 	top: -102px;
 	right: -25px;

@@ -1,5 +1,5 @@
 /********** function ********/
-async function logUser(){
+ async function logUser(){
     const emailUser = document.querySelector("#mail_log").value;
     const passwordUser = document.querySelector("#password_log").value;
     const infoUser = {
@@ -16,7 +16,11 @@ async function logUser(){
         body: identify
     }).then(response => {
         if(response.ok){
-            window.location.assign("edit.html");
+            response.json().then(data => {
+                const generateToken = data.token;
+                window.location.assign("index.html");
+                sessionStorage.setItem("token", generateToken); 
+            })          
         }else{
             document.querySelector(".error_message").style.display = "block";
            console.log(response.body); 
@@ -29,3 +33,4 @@ document.querySelector(".submit_form").addEventListener("click", function(e){
     e.preventDefault();
     logUser();
 });
+console.log(sessionStorage);

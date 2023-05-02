@@ -1,9 +1,16 @@
 /******** variables **********/
 let gallery = document.querySelector(".gallery");
+let galleryModal = document.querySelector(".gallery-modal");
 const allFilters = document.querySelector("#all-filter");
 const objectFilter = document.querySelector("#object-filter");
 const appartementFilter = document.querySelector("#appartement-filter");
 const hotelFilter = document.querySelector("#hotel-filter");
+const edited = document.querySelectorAll(".edited");
+const modalContainer = document.querySelector(".modal-container");
+const modalTrigger = document.querySelectorAll(".modal-trigger");
+const deleteBtn = document.querySelectorAll(".delete-btn");
+const logout = document.querySelector(".logout");
+const token = sessionStorage.getItem("token");
 
 /******function **********/
 /**
@@ -14,7 +21,6 @@ const hotelFilter = document.querySelector("#hotel-filter");
  */
 function generateWork(array){
     for(let i = 0; i < array.length; i++){
-        console.log(array[i]);
         let figure = document.createElement("figure");
         let img = document.createElement("img");
         let figCaption = document.createElement("figcaption");
@@ -25,6 +31,18 @@ function generateWork(array){
         figure.appendChild(figCaption);
         gallery.appendChild(figure);
     }
+};
+async function deleteWork(dataId){
+    await fetch("http://localhost:5678/api/works/" + dataId,{
+        method: "DELETE",
+        headers: {
+            "accept" : "*/*",
+            "Authorization": "Bearer"+ token
+        }
+    }).then(response => {
+        console.log(response.body);
+        return response.json();
+    })
 };
 
 async function addWorks(){
@@ -53,14 +71,63 @@ async function addWorks(){
     }
     else{
         generateWork(datas);
+        modalGenerateWork(datas);
       }
    })
 };
+function edit(){
+    let token = sessionStorage.getItem("token");
+    if(token != null){
+        edited.forEach(edite => {
+            edite.style.display = "flex";
+            document.querySelector(".portfolio_a").style.display = "contents";
+        })
+        document.querySelector(".header").setAttribute("class", "header_edit");
+        document.querySelector(".nav").setAttribute("class", "edit_title-nav");
+        document.querySelector(".logout").innerHTML = "";
+        document.querySelector(".logout").innerHTML = "logout";
+        document.querySelector(".filter").style.display = "none";
+        document.querySelector(".portfolio_h2").setAttribute("class", "edit_h2");
+        document.querySelector(".header_nav").style.margin = "0";
+    }else{
+        edited.forEach(edite => {
+            edite.style.display = "none";
+        })        
+    }
+};
+function modalGenerateWork(array){
+    for(let i = 0; i < array.length; i++){
+        let figure = document.createElement("figure");
+        let img = document.createElement("img");
+        let figCaption = document.createElement("figcaption");
+        let buttonDelete = document.createElement("button");
+        let modalIcone = document.createElement("i");
+        let dataId = array[i].id
+        img.src = array[i].imageUrl;
+        buttonDelete.classList.add("delete-btn");
+        buttonDelete.setAttribute("data-id", dataId);         
+        modalIcone.setAttribute("class","fa-solid fa-trash-can");
+         buttonDelete.appendChild(modalIcone);
+         buttonDelete.addEventListener("click", deleteWork(dataId));
+        figCaption.innerHTML = "éditer";       
+        figure.appendChild(img);
+        figCaption.appendChild(buttonDelete);
+        figure.appendChild(figCaption);
+        galleryModal.appendChild(figure);
+    }
+};
+function toggleModal(){
+    modalContainer.classList.toggle("active");
+}
 
 /****** ajout initial de la gallerie ******/
 addWorks();
-
+edit();
+console.log(sessionStorage);
 /****** listener filtre *********/
+document.querySelector(".logout").addEventListener("click", function(){
+    sessionStorage.removeItem("token");
+})
 allFilters.addEventListener("click", function(){
     console.log("all checked");
     gallery.innerHTML = "";
@@ -87,5 +154,5 @@ appartementFilter.addEventListener("click", function(){
     addWorks();
 });
 
-
-        
+modalTrigger.forEach(trigger => trigger.addEventListener("click", toggleModal));
+    
