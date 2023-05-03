@@ -1,3 +1,5 @@
+import {  deleteWork, addWorks } from "./services/modules.js";
+
 /******** variables **********/
 let gallery = document.querySelector(".gallery");
 let galleryModal = document.querySelector(".gallery-modal");
@@ -8,9 +10,7 @@ const hotelFilter = document.querySelector("#hotel-filter");
 const edited = document.querySelectorAll(".edited");
 const modalContainer = document.querySelector(".modal-container");
 const modalTrigger = document.querySelectorAll(".modal-trigger");
-const deleteBtn = document.querySelectorAll(".delete-btn");
 const logout = document.querySelector(".logout");
-const token = sessionStorage.getItem("token");
 
 /******function **********/
 /**
@@ -32,49 +32,8 @@ function generateWork(array){
         gallery.appendChild(figure);
     }
 };
-async function deleteWork(dataId){
-    await fetch("http://localhost:5678/api/works/" + dataId,{
-        method: "DELETE",
-        headers: {
-            "accept" : "*/*",
-            "Authorization": "Bearer"+ token
-        }
-    }).then(response => {
-        console.log(response.body);
-        return response.json();
-    })
-};
 
-async function addWorks(){
-    await fetch("http://localhost:5678/api/works",{
-    method : "GET",
-    headers : {
-        "Accept" : "application/json"
-    }
-}).then(response => {
-    return response.json();
-}).then(datas => {
-    if(objectFilter.checked){
-        console.log("objet checked");
-        const object = datas.filter(data => data.categoryId === 1);
-        generateWork(object);
-    }
-    else if(appartementFilter.checked){
-        console.log("appartement checked");
-        const appartement = datas.filter(data => data.categoryId === 2);
-        generateWork(appartement);
-    }
-    else if(hotelFilter.checked){
-        console.log("hotel checked");
-        const hotel = datas.filter(data => data.categoryId === 3);
-        generateWork(hotel);
-    }
-    else{
-        generateWork(datas);
-        modalGenerateWork(datas);
-      }
-   })
-};
+
 function edit(){
     let token = sessionStorage.getItem("token");
     if(token != null){
@@ -118,14 +77,15 @@ function modalGenerateWork(array){
 };
 function toggleModal(){
     modalContainer.classList.toggle("active");
-}
+};
 
 /****** ajout initial de la gallerie ******/
 addWorks();
 edit();
 console.log(sessionStorage);
+
 /****** listener filtre *********/
-document.querySelector(".logout").addEventListener("click", function(){
+    logout.addEventListener("click", function(){
     sessionStorage.removeItem("token");
 })
 allFilters.addEventListener("click", function(){
@@ -155,4 +115,5 @@ appartementFilter.addEventListener("click", function(){
 });
 
 modalTrigger.forEach(trigger => trigger.addEventListener("click", toggleModal));
-    
+
+export {generateWork, modalGenerateWork};
