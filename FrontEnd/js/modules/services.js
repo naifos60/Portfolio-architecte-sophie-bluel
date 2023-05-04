@@ -1,5 +1,5 @@
-import {generateWork, modalGenerateWork, generateFilter} from "../script.js";
-import { gallery, filter } from "./variables.js";
+import {generateWork, modalGenerateWork} from "../script.js";
+import { gallery, filter, objectFilter, appartementFilter, hotelFilter} from "./variables.js";
 
 async function addCategory(){
     await fetch("http://localhost:5678/api/categories",{
@@ -12,36 +12,31 @@ async function addCategory(){
     }).then(category => {
         console.log(category);
             filter.innerHTML =
-            `<input type="radio" id="all-filter" name="filter">
-            <label for="all-filter"  class="all-filter" >Tous</label>`;
-             generateFilter(category);
-             const allFilters = document.querySelector("#all-filter");
-             allFilters.addEventListener("click", function(){
-                console.log("all checked");
-                gallery.innerHTML = "";
-                addWorks();
-            });
-    })
-};
+            `<input type="radio" id="filter-0" name="filter">
+            <label for="filter-0"  class="0-filter" >Tous</label>`
+            +
+            category.map((category) => 
+                `<input type="radio" id="filter-${category.id}" name="filter">
+                <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
+            ).join("");
+            console.log(filter);
+            })
+    };
+
 
 async function addWorks(){
     await fetch("http://localhost:5678/api/works",{
-method : "GET",
-headers: {
-    "accept": "application/json"
-    }
-}).then(response => {
-   if(response.ok){
-        response.json().then(datas => {
-        generateWork(datas);
-        modalGenerateWork(datas);
-        console.log(datas);
-       })
-     }else{
-        console.log("erreur");
-     }
-  })
-};
+        method : "GET",
+        headers: {
+            "accept": "application/json"
+            }
+        }).then(response => {
+            return  response.json();
+        }).then(datas => {           
+            generateWork(datas);
+            modalGenerateWork(datas); 
+        })
+    };
 
 
 

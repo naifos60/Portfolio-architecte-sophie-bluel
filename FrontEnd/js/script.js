@@ -1,5 +1,5 @@
-import {  deleteWork, addWorks, addCategory } from "./modules/services.js";
-import { gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout } from "./modules/variables.js";
+import {  deleteWork, addWorks, addCategory} from "./modules/services.js";
+import { gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, allFilters, hotelFilter, appartementFilter, objectFilter } from "./modules/variables.js";
 
 
 /******function **********/
@@ -20,20 +20,6 @@ function generateWork(array){
         figure.appendChild(img);
         figure.appendChild(figCaption);
         gallery.appendChild(figure);
-    }
-};
-function generateFilter(array){
-    for(let i = 0; i > array.length; i++){        
-        let input = document.createElement("input");
-        let label = document.createElement("label");
-        input.setAttribute("type","radio");
-        input.setAttribute("id", "filter-" + array[i].id);
-        input.setAttribute("name", "filter");
-        filter.append(input);
-        label.setAttribute("for", "filter-" + array[i].id);
-        label.setAttribute("class", array[i].name +"-filter");
-        label.innerHTML = array[i].name;  
-        filter.append(label);  
     }
 };
 
@@ -121,4 +107,4 @@ console.log(sessionStorage);
 
 modalTrigger.forEach(trigger => trigger.addEventListener("click", toggleModal));
 
-export {generateWork, modalGenerateWork, generateFilter};
+export {generateWork, modalGenerateWork};
