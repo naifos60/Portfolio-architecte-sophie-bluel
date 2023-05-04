@@ -1,6 +1,6 @@
 import {addWorks, addCategory} from "./modules/services.js";
 import {modalTrigger, logout, allFilters, hotelFilter, appartementFilter, objectFilter} from "./modules/variables.js";
-import {generateWork, edit, modalGenerateWork, toggleModal} from "./modules/model.js";
+import {edit, toggleModal} from "./modules/model.js";
 
 
 /****** ajout initial de la gallerie ******/
@@ -9,11 +9,8 @@ addCategory();
 edit();
 console.log(sessionStorage);
 
-
-    logout.addEventListener("click", function(){
-    sessionStorage.removeItem("token");
-});
-
+/****** listener edit ******/
+logout.addEventListener("click", function(){sessionStorage.removeItem("token");});
 modalTrigger.forEach(trigger => trigger.addEventListener("click", toggleModal));
 
 /****** listener filtre *********/
@@ -22,7 +19,7 @@ modalTrigger.forEach(trigger => trigger.addEventListener("click", toggleModal));
 //     gallery.innerHTML = "";
 //     addWorks();
 // });  
-// objectFilter.addEventListener("click",function(){
+// // objectFilter.addEventListener("click",function(){
 //     console.log("objet checkd");
 //     gallery.innerHTML = "";
 //     addWorks();
