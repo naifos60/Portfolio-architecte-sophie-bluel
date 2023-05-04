@@ -1,9 +1,7 @@
-import {generateWork, modalGenerateWork} from "../script.js";
+import {generateWork, modalGenerateWork, generateFilter} from "../script.js";
 
 /******* variables ******/
-const objectFilter = document.querySelector("#object-filter");
-const appartementFilter = document.querySelector("#appartement-filter");
-const hotelFilter = document.querySelector("#hotel-filter");
+let filter = document.querySelector(".filter_form");
 
 async function addCategory(){
     await fetch("http://localhost:5678/api/categories",{
@@ -14,46 +12,36 @@ async function addCategory(){
     }).then(categories => {
         return categories.json();
     }).then(category => {
-        return category;
+        console.log(category);
+            filter.innerHTML =
+            `<input type="radio" id="all-filter" name="filter">
+            <label for="all-filter"  class="all-filter" >Tous</label>`;
+            + generateFilter(category);
     })
 };
 
 async function addWorks(){
     await fetch("http://localhost:5678/api/works",{
-    method : "GET",
-    headers : {
-        "Accept" : "application/json"
+method : "GET",
+headers: {
+    "accept": "application/json"
     }
 }).then(response => {
-    console.log(response);
-    return response.json();
-}).then(datas => {
-    if(objectFilter.checked){
-        console.log("objet checked");
-        const object = datas.filter(data => data.categoryId === 1);
-        generateWork(object);
-    }
-    else if(appartementFilter.checked){
-        console.log("appartement checked");
-        const appartement = datas.filter(data => data.categoryId === 2);
-        generateWork(appartement);
-    }
-    else if(hotelFilter.checked){
-        console.log("hotel checked");
-        const hotel = datas.filter(data => data.categoryId === 3);
-        generateWork(hotel);
-    }
-    else{
+   if(response.ok){
+        response.json().then(datas => {
         generateWork(datas);
-        modalGenerateWork(datas);
-      }
-   })
+        console.log(datas);
+       })
+     }else{
+        console.log("erreur");
+     }
+  })
 };
 
 
 
 async function deleteWork(dataId){
-    const token = sessionStorage.getItem("token");
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
     await fetch("http://localhost:5678/api/works/" + dataId,{
         method: "DELETE",
         headers: {
@@ -69,4 +57,4 @@ async function deleteWork(dataId){
     })
 };
 
-export { deleteWork, addWorks};
+export { deleteWork, addWorks, addCategory};

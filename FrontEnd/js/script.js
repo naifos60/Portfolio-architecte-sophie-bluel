@@ -1,8 +1,9 @@
-import {  deleteWork, addWorks } from "./services/modules.js";
+import {  deleteWork, addWorks, addCategory } from "./services/modules.js";
 
 /******** variables **********/
 let gallery = document.querySelector(".gallery");
 let galleryModal = document.querySelector(".gallery-modal");
+let filter = document.querySelector(".filter_form");
 const allFilters = document.querySelector("#all-filter");
 const objectFilter = document.querySelector("#object-filter");
 const appartementFilter = document.querySelector("#appartement-filter");
@@ -11,6 +12,7 @@ const edited = document.querySelectorAll(".edited");
 const modalContainer = document.querySelector(".modal-container");
 const modalTrigger = document.querySelectorAll(".modal-trigger");
 const logout = document.querySelector(".logout");
+
 
 /******function **********/
 /**
@@ -30,6 +32,20 @@ function generateWork(array){
         figure.appendChild(img);
         figure.appendChild(figCaption);
         gallery.appendChild(figure);
+    }
+};
+function generateFilter(array){
+    for(let i = 0; i > array.length; i++){        
+        let input = document.createElement("input");
+        let label = document.createElement("label");
+        input.setAttribute("type","radio");
+        input.setAttribute("id", "filter-" + array[i].id);
+        input.setAttribute("name", "filter");
+        filter.appendChild(input);
+        label.setAttribute("for", "filter-" + array[i].id);
+        label.setAttribute("class", array[i].name +"-filter");
+        label.innerHTML = array[i].name;  
+        filter.appendChild(label);  
     }
 };
 
@@ -66,8 +82,8 @@ function modalGenerateWork(array){
         buttonDelete.classList.add("delete-btn");
         buttonDelete.setAttribute("data-id", dataId);         
         modalIcone.setAttribute("class","fa-solid fa-trash-can");
-         buttonDelete.appendChild(modalIcone);
-         buttonDelete.addEventListener("click", deleteWork(dataId));
+        buttonDelete.appendChild(modalIcone);
+        buttonDelete.addEventListener("click", deleteWork(dataId));
         figCaption.innerHTML = "éditer";       
         figure.appendChild(img);
         figCaption.appendChild(buttonDelete);
@@ -81,6 +97,7 @@ function toggleModal(){
 
 /****** ajout initial de la gallerie ******/
 addWorks();
+addCategory();
 edit();
 console.log(sessionStorage);
 
@@ -88,32 +105,32 @@ console.log(sessionStorage);
     logout.addEventListener("click", function(){
     sessionStorage.removeItem("token");
 })
-allFilters.addEventListener("click", function(){
-    console.log("all checked");
-    gallery.innerHTML = "";
-    addWorks();
-});
+// allFilters.addEventListener("click", function(){
+//     console.log("all checked");
+//     gallery.innerHTML = "";
+//     addWorks();
+// });
 
-objectFilter.addEventListener("click",function(){
-    console.log("objet checkd");
-    gallery.innerHTML = "";
-    addWorks();
-    });
+// objectFilter.addEventListener("click",function(){
+//     console.log("objet checkd");
+//     gallery.innerHTML = "";
+//     addWorks();
+//     });
 
 
-hotelFilter.addEventListener("click", function(){
-    console.log("hotel checked");
-    gallery.innerHTML = "";
-    addWorks();
+// hotelFilter.addEventListener("click", function(){
+//     console.log("hotel checked");
+//     gallery.innerHTML = "";
+//     addWorks();
 
-});
+// });
 
-appartementFilter.addEventListener("click", function(){
-    console.log("appart checked");
-    gallery.innerHTML = "";
-    addWorks();
-});
+// appartementFilter.addEventListener("click", function(){
+//     console.log("appart checked");
+//     gallery.innerHTML = "";
+//     addWorks();
+// });
 
 modalTrigger.forEach(trigger => trigger.addEventListener("click", toggleModal));
 
-export {generateWork, modalGenerateWork};
+export {generateWork, modalGenerateWork, generateFilter};
