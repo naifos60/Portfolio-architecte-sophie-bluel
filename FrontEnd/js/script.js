@@ -1,17 +1,5 @@
-import {  deleteWork, addWorks, addCategory } from "./services/modules.js";
-
-/******** variables **********/
-let gallery = document.querySelector(".gallery");
-let galleryModal = document.querySelector(".gallery-modal");
-let filter = document.querySelector(".filter_form");
-const allFilters = document.querySelector("#all-filter");
-const objectFilter = document.querySelector("#object-filter");
-const appartementFilter = document.querySelector("#appartement-filter");
-const hotelFilter = document.querySelector("#hotel-filter");
-const edited = document.querySelectorAll(".edited");
-const modalContainer = document.querySelector(".modal-container");
-const modalTrigger = document.querySelectorAll(".modal-trigger");
-const logout = document.querySelector(".logout");
+import {  deleteWork, addWorks, addCategory } from "./modules/services.js";
+import { gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout } from "./modules/variables.js";
 
 
 /******function **********/
@@ -41,11 +29,11 @@ function generateFilter(array){
         input.setAttribute("type","radio");
         input.setAttribute("id", "filter-" + array[i].id);
         input.setAttribute("name", "filter");
-        filter.appendChild(input);
+        filter.append(input);
         label.setAttribute("for", "filter-" + array[i].id);
         label.setAttribute("class", array[i].name +"-filter");
         label.innerHTML = array[i].name;  
-        filter.appendChild(label);  
+        filter.append(label);  
     }
 };
 
@@ -83,7 +71,7 @@ function modalGenerateWork(array){
         buttonDelete.setAttribute("data-id", dataId);         
         modalIcone.setAttribute("class","fa-solid fa-trash-can");
         buttonDelete.appendChild(modalIcone);
-        buttonDelete.addEventListener("click", deleteWork(dataId));
+        // buttonDelete.addEventListener("click", deleteWork(dataId));
         figCaption.innerHTML = "éditer";       
         figure.appendChild(img);
         figCaption.appendChild(buttonDelete);

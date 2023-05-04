@@ -1,7 +1,5 @@
 import {generateWork, modalGenerateWork, generateFilter} from "../script.js";
-
-/******* variables ******/
-let filter = document.querySelector(".filter_form");
+import { gallery, filter } from "./variables.js";
 
 async function addCategory(){
     await fetch("http://localhost:5678/api/categories",{
@@ -17,6 +15,12 @@ async function addCategory(){
             `<input type="radio" id="all-filter" name="filter">
             <label for="all-filter"  class="all-filter" >Tous</label>`;
              generateFilter(category);
+             const allFilters = document.querySelector("#all-filter");
+             allFilters.addEventListener("click", function(){
+                console.log("all checked");
+                gallery.innerHTML = "";
+                addWorks();
+            });
     })
 };
 
@@ -30,6 +34,7 @@ headers: {
    if(response.ok){
         response.json().then(datas => {
         generateWork(datas);
+        modalGenerateWork(datas);
         console.log(datas);
        })
      }else{
