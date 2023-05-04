@@ -1,5 +1,5 @@
-import {generateWork, modalGenerateWork} from "../script.js";
-import { gallery, filter, objectFilter, appartementFilter, hotelFilter} from "./variables.js";
+import {filter} from "./variables.js";
+import {generateWork, modalGenerateWork} from "./model.js";
 
 async function addCategory(){
     await fetch("http://localhost:5678/api/categories",{
@@ -20,7 +20,7 @@ async function addCategory(){
                 <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
             ).join("");
             console.log(filter);
-            })
+            });
     };
 
 
