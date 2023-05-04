@@ -16,7 +16,7 @@ async function addCategory(){
             filter.innerHTML =
             `<input type="radio" id="all-filter" name="filter">
             <label for="all-filter"  class="all-filter" >Tous</label>`;
-            + generateFilter(category);
+             generateFilter(category);
     })
 };
 
