@@ -1,11 +1,11 @@
 import {addWorks, addCategory} from "./modules/services.js";
-import {modalTrigger, logout, allFilters, hotelFilter, appartementFilter, objectFilter} from "./modules/variables.js";
+import {modalTrigger, logout} from "./modules/variables.js";
 import {edit, toggleModal} from "./modules/model.js";
 
 
 /****** ajout initial de la gallerie ******/
-addWorks();
 addCategory();
+addWorks();
 edit();
 console.log(sessionStorage);
 

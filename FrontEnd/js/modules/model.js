@@ -1,4 +1,6 @@
-import { gallery, galleryModal, edited, modalContainer } from "../modules/variables.js";
+import { gallery, galleryModal, edited, modalContainer} from "../modules/variables.js";
+import { addWorks } from "./services.js";
+
 /**
  * la fonction prend un tableau comme argument puis récupère
  *  une image, un titre et un texte pour chaque élément
@@ -61,8 +63,10 @@ function modalGenerateWork(array){
         galleryModal.appendChild(figure);
     }
 };
+
 function toggleModal(){
     modalContainer.classList.toggle("active");
+    addWorks();
 };
 
 export {generateWork, edit, modalGenerateWork, toggleModal};

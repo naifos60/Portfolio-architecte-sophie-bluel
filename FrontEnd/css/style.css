@@ -486,7 +486,7 @@ footer nav li{
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	transition: opacity 0.4s ease-out;
+	transition: opacity 0.2s ease-out;
 }
 .modal-container.active .modal{
 	opacity: 1;

@@ -1,4 +1,4 @@
-import {filter} from "./variables.js";
+import {filter, gallery, galleryModal, modalContainer} from "./variables.js";
 import {generateWork, modalGenerateWork} from "./model.js";
 
 async function addCategory(){
@@ -10,7 +10,6 @@ async function addCategory(){
     }).then(categories => {
         return categories.json();
     }).then(category => {
-        console.log(category);
             filter.innerHTML =
             `<input type="radio" id="filter-0" name="filter">
             <label for="filter-0"  class="0-filter" >Tous</label>`
@@ -20,8 +19,8 @@ async function addCategory(){
                 <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
             ).join("");
             console.log(filter);
-            });
-    };
+    });                      
+};
 
 
 async function addWorks(){
@@ -32,11 +31,39 @@ async function addWorks(){
             }
         }).then(response => {
             return  response.json();
-        }).then(datas => {           
-            generateWork(datas);
-            modalGenerateWork(datas); 
-        })
-    };
+        }).then(datas => {
+            const allFilters = document.querySelector("#filter-0");   
+            const objectFilter = document.querySelector("#filter-1");
+            const appartementFilter = document.querySelector("#filter-2");
+            const hotelFilter = document.querySelector("#filter-3");        
+            const object = datas.filter(data => data.categoryId === 1);
+            const appartement = datas.filter(data => data.categoryId === 2);
+            const hotel = datas.filter(data => data.categoryId === 3);
+            if(modalContainer.classList.contains("active")){
+                modalGenerateWork(datas); 
+            }else{
+                generateWork(datas);
+                galleryModal.innerHTML = ""; 
+            }                          
+            
+        allFilters.addEventListener('click', function(){
+                gallery.innerHTML = "";
+                generateWork(datas);
+        });
+        objectFilter.addEventListener('click', function(){
+                gallery.innerHTML = "";
+                generateWork(object);
+        });     
+        appartementFilter.addEventListener('click', function(){
+                gallery.innerHTML = "";
+                generateWork(appartement);
+        });     
+        hotelFilter.addEventListener('click', function(){
+            gallery.innerHTML = "";
+            generateWork(hotel);
+        });    
+    });       
+ };
 
 
 
@@ -56,5 +83,6 @@ async function deleteWork(dataId){
         return deletes;
     })
 };
+
 
 export { deleteWork, addWorks, addCategory};
