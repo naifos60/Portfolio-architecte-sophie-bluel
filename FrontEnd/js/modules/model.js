@@ -1,5 +1,5 @@
 import { gallery, galleryModal, edited, modalContainer} from "../modules/variables.js";
-import { addWorks } from "./services.js";
+import { addWorks, deleteWork } from "./services.js";
 
 /**
  * la fonction prend un tableau comme argument puis récupère
@@ -21,7 +21,6 @@ import { addWorks } from "./services.js";
     }
 };
 
-
 function edit(){
     let token = sessionStorage.getItem("token");
     if(token != null){
@@ -42,6 +41,7 @@ function edit(){
         })        
     }
 };
+
 function modalGenerateWork(array){
     for(let i = 0; i < array.length; i++){
         let figure = document.createElement("figure");
@@ -54,13 +54,25 @@ function modalGenerateWork(array){
         buttonDelete.classList.add("delete-btn");
         buttonDelete.setAttribute("data-id", dataId);         
         modalIcone.setAttribute("class","fa-solid fa-trash-can");
-        buttonDelete.appendChild(modalIcone);
-        // buttonDelete.addEventListener("click", deleteWork(dataId));
+        buttonDelete.appendChild(modalIcone);        
         figCaption.innerHTML = "éditer";       
         figure.appendChild(img);
         figCaption.appendChild(buttonDelete);
+        buttonDelete.addEventListener("click", function(e){
+            e.preventDefault();
+            confirmDelete(dataId);
+        });
         figure.appendChild(figCaption);
-        galleryModal.appendChild(figure);
+        galleryModal.appendChild(figure);        
+    };
+};
+
+function confirmDelete(workId){
+    let result = confirm("Voulez-vous vraiment supprimer le projet:"+ workId);
+    if(result){
+        deleteWork(workId);
+    }else{
+        console.log("suppression annulée");
     }
 };
 
@@ -69,4 +81,4 @@ function toggleModal(){
     addWorks();
 };
 
-export {generateWork, edit, modalGenerateWork, toggleModal};
+export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete};

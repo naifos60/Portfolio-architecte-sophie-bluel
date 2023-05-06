@@ -40,7 +40,7 @@ async function addWorks(){
             const appartement = datas.filter(data => data.categoryId === 2);
             const hotel = datas.filter(data => data.categoryId === 3);
             if(modalContainer.classList.contains("active")){
-                modalGenerateWork(datas); 
+                modalGenerateWork(datas);                               
             }else{
                 generateWork(datas);
                 galleryModal.innerHTML = ""; 
@@ -61,14 +61,14 @@ async function addWorks(){
         hotelFilter.addEventListener('click', function(){
             gallery.innerHTML = "";
             generateWork(hotel);
-        });    
+        }); 
     });       
  };
 
 
 
 async function deleteWork(dataId){
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4";
+    const token = sessionStorage.getItem("token");
     await fetch("http://localhost:5678/api/works/" + dataId,{
         method: "DELETE",
         headers: {
