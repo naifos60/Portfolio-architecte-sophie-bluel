@@ -166,8 +166,8 @@ li a:hover{
 }
 /******* filter *******/
 .filter{
-	transform-origin: 100% 50%;
-	animation: openwork 0.4S ease-in-out  backwards;
+	transform-origin: 0% 50%;
+	animation: openwork 0.3S ease-in-out  backwards;
 }
 .filter form{
 	display: flex;
@@ -224,7 +224,7 @@ li a:hover{
 }
 .gallery figure{
 	transform-origin: 0% 50%;
-	animation: openwork 0.4S ease-in-out backwards;
+	animation: openwork 0.3S ease-in-out backwards;
 }
 
 @keyframes openwork {

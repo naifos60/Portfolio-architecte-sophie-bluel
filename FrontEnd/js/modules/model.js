@@ -68,7 +68,7 @@ function modalGenerateWork(array){
 };
 
 function confirmDelete(workId){
-    let result = confirm("Voulez-vous vraiment supprimer le projet:"+ workId);
+    let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
     if(result){
         deleteWork(workId);
     }else{
