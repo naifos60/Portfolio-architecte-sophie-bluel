@@ -1,4 +1,4 @@
-import { gallery, galleryModal, edited, modalContainer} from "../modules/variables.js";
+import { gallery, galleryModal, edited, modalContainer, modal} from "../modules/variables.js";
 import { addWorks, deleteWork } from "./services.js";
 
 /**
@@ -67,6 +67,46 @@ function modalGenerateWork(array){
     };
 };
 
+function generateAddModal(){
+    let arrowLeft = document.createElement("button");
+    let titleModal = document.querySelector(".modal-title");
+    arrowLeft.classList.add("arrow-left");
+    arrowLeft.innerHTML = `<i class="fa-solid fa-arrow-left"></i>`;
+    modal.appendChild(arrowLeft);
+    titleModal.innerHTML = "Ajout photo";
+    galleryModal.style.border = "none";
+    galleryModal.style.padding = "0";
+    galleryModal.innerHTML = "";
+    galleryModal.innerHTML = `<form class="modal-add">
+    <label for="file-input" class="file-input">
+        <i class="fa-solid fa-image"></i>
+        <h4>+ Ajouter photo</h4>
+        <p>jpg, png : 4mo max</p>
+    </label>
+    <input type="file" id="file-input" accept=".jpg, .png">
+    <label for="title_work-input">Titre</label>
+    <input type="text" id="title_work-input">
+    <label for="category_work-input">Catégorie</label>
+        <select>
+            <option>Objets</option>
+            <option>Appartements</option>
+            <option>Hôtel & restaurant</option>
+        </select>	
+</form>`;
+document.querySelector(".add-pics").setAttribute("value", "Valider");
+document.querySelector(".delete-a").style.display = "none";
+arrowLeft.addEventListener("click", function(){
+    titleModal.innerHTML = "Galerie photo";
+    galleryModal.innerHTML = "";
+    document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
+    document.querySelector(".delete-a").style.display = "block";
+    galleryModal.style.padding = "0px 0px 47px";
+    galleryModal.style.borderBottom = "1px solid #B3B3B3";
+    arrowLeft.style.display = "none";
+    addWorks();
+});
+}
+
 function confirmDelete(workId){
     let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
     if(result){
@@ -81,4 +121,4 @@ function toggleModal(){
     addWorks();
 };
 
-export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete};
+export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete, generateAddModal};
