@@ -7,5 +7,6 @@
  const modalContainer = document.querySelector(".modal-container");
  const modalTrigger = document.querySelectorAll(".modal-trigger");
  const logout = document.querySelector(".logout");
-
-export {gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, modal};
+const urlApi = "http://localhost:5678/api/";
+let titleModal = document.querySelector(".modal-title");
+export {gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, modal, urlApi, titleModal};

@@ -503,6 +503,7 @@ footer nav li{
 	margin-bottom: 46px;
 }
 .gallery-modal{
+	width: 420px;
 	margin: 0 57.25px;
 	display: flex;
 	flex-direction: row;

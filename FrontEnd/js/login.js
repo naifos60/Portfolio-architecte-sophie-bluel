@@ -19,7 +19,8 @@
             response.json().then(data => {
                 const generateToken = data.token;
                 window.location.assign("index.html");
-                sessionStorage.setItem("token", generateToken); 
+                localStorage.clear();
+                localStorage.setItem("token", generateToken); 
             })          
         }else{
             document.querySelector(".error_message").style.display = "block";
@@ -33,4 +34,9 @@ document.querySelector(".submit_form").addEventListener("click", function(e){
     e.preventDefault();
     logUser();
 });
-console.log(sessionStorage);
+
+let token = localStorage.getItem("token");
+if(token != null){
+    window.location.assign("index.html");
+}
+console.log(localStorage);

@@ -1,75 +1,51 @@
-import {filter, gallery, galleryModal, modalContainer} from "./variables.js";
-import {generateWork, modalGenerateWork} from "./model.js";
+import {urlApi} from "./variables.js";
 
-async function addCategory(){
-    await fetch("http://localhost:5678/api/categories",{
+async function getCategory(){
+    const request = await fetch(urlApi + "categories",{
         method : "GET",
         headers : {
             "Accept" : "application/json"
         }
-    }).then(categories => {
-        return categories.json();
-    }).then(category => {
-            filter.innerHTML =
-            `<input type="radio" id="filter-0" name="filter">
-            <label for="filter-0"  class="0-filter" >Tous</label>`
-            +
-            category.map((category) => 
-                `<input type="radio" id="filter-${category.id}" name="filter">
-                <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
-            ).join("");
-            console.log(filter);
-    });                      
+    })
+    if(!request.ok){
+        throw new Error("ereur API");
+    }
+    const result = await request.json();
+    return result;
+    // }).then(category => {
+    //         filter.innerHTML =
+    //         `<input type="radio" id="filter-0" name="filter" checked>
+    //         <label for="filter-0"  class="0-filter" >Tous</label>`
+    //         +
+    //         category.map((category) => 
+    //             `<input type="radio" id="filter-${category.id}" name="filter">
+    //             <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
+    //         ).join("");
+    //         console.log(filter);
+    // });                      
 };
 
 
-async function addWorks(){
-    await fetch("http://localhost:5678/api/works",{
+ async function getWorks(){
+    const request = 
+    await fetch(urlApi + "works",{
         method : "GET",
         headers: {
             "accept": "application/json"
             }
-        }).then(response => {
-            return  response.json();
-        }).then(datas => {
-            const allFilters = document.querySelector("#filter-0");   
-            const objectFilter = document.querySelector("#filter-1");
-            const appartementFilter = document.querySelector("#filter-2");
-            const hotelFilter = document.querySelector("#filter-3");        
-            const object = datas.filter(data => data.categoryId === 1);
-            const appartement = datas.filter(data => data.categoryId === 2);
-            const hotel = datas.filter(data => data.categoryId === 3);
-            if(modalContainer.classList.contains("active")){
-                modalGenerateWork(datas);                               
-            }else{
-                generateWork(datas);
-                galleryModal.innerHTML = ""; 
-            }                          
-            
-        allFilters.addEventListener('click', function(){
-                gallery.innerHTML = "";
-                generateWork(datas);
-        });
-        objectFilter.addEventListener('click', function(){
-                gallery.innerHTML = "";
-                generateWork(object);
-        });     
-        appartementFilter.addEventListener('click', function(){
-                gallery.innerHTML = "";
-                generateWork(appartement);
-        });     
-        hotelFilter.addEventListener('click', function(){
-            gallery.innerHTML = "";
-            generateWork(hotel);
-        }); 
-    });       
- };
+    })
+    if(!request.ok){
+        throw new Error("ereur API");
+    }
+    const result = await request.json();
+    return result;
+};
 
 
 
 async function deleteWork(dataId){
-    const token = sessionStorage.getItem("token");
-    await fetch("http://localhost:5678/api/works/" + dataId,{
+    const token = localStorage.getItem("token");
+    await fetch(urlApi + "works/" + dataId,{
         method: "DELETE",
         headers: {
             "accept" : "*/*",
@@ -85,4 +61,4 @@ async function deleteWork(dataId){
 };
 
 
-export { deleteWork, addWorks, addCategory};
+export { deleteWork, getCategory, getWorks};

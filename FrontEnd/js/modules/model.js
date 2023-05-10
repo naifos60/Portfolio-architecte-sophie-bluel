@@ -1,5 +1,5 @@
-import { gallery, galleryModal, edited, modalContainer, modal} from "../modules/variables.js";
-import { addWorks, deleteWork } from "./services.js";
+import { gallery, galleryModal, edited, modalContainer, modal, filter} from "../modules/variables.js";
+import { deleteWork, getWorks, getCategory} from "./services.js";
 
 /**
  * la fonction prend un tableau comme argument puis récupère
@@ -21,8 +21,59 @@ import { addWorks, deleteWork } from "./services.js";
     }
 };
 
+async function addWorks(){
+     await getWorks().then(datas => {
+            const allFilters = document.querySelector("#filter-0");   
+            const objectFilter = document.querySelector("#filter-1");
+            const appartementFilter = document.querySelector("#filter-2");
+            const hotelFilter = document.querySelector("#filter-3");        
+            const object = datas.filter(data => data.categoryId === 1);
+            const appartement = datas.filter(data => data.categoryId === 2);
+            const hotel = datas.filter(data => data.categoryId === 3);
+            if(modalContainer.classList.contains("active")){
+                modalGenerateWork(datas);                               
+            }else if(gallery.firstElementChild == undefined){
+                generateWork(datas);
+            }else{
+                galleryModal.innerHTML = ""; 
+            }                          
+            
+        allFilters.addEventListener('click', function(){
+                gallery.innerHTML = "";
+                generateWork(datas);
+        });
+        objectFilter.addEventListener('click', function(){
+                gallery.innerHTML = "";
+                generateWork(object);
+        });     
+        appartementFilter.addEventListener('click', function(){
+                gallery.innerHTML = "";
+                generateWork(appartement);
+        });     
+        hotelFilter.addEventListener('click', function(){
+            gallery.innerHTML = "";
+            generateWork(hotel);
+        });
+    })
+};
+
+async function addCategory(){
+    await getCategory().then(category => {
+        filter.innerHTML =
+        `<input type="radio" id="filter-0" name="filter" checked>
+        <label for="filter-0"  class="0-filter" >Tous</label>`
+        +
+        category.map((category) => 
+            `<input type="radio" id="filter-${category.id}" name="filter">
+            <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
+        ).join("");
+    }); 
+};
+
+
+
 function edit(){
-    let token = sessionStorage.getItem("token");
+    let token = localStorage.getItem("token");
     if(token != null){
         edited.forEach(edite => {
             edite.style.display = "flex";
@@ -39,7 +90,7 @@ function edit(){
         edited.forEach(edite => {
             edite.style.display = "none";
         })        
-    }
+    };
 };
 
 function modalGenerateWork(array){
@@ -76,6 +127,7 @@ function generateAddModal(){
     titleModal.innerHTML = "Ajout photo";
     galleryModal.style.border = "none";
     galleryModal.style.padding = "0";
+    galleryModal.style.width = "auto";
     galleryModal.innerHTML = "";
     galleryModal.innerHTML = `<form class="modal-add">
     <label for="file-input" class="file-input">
@@ -88,24 +140,27 @@ function generateAddModal(){
     <input type="text" id="title_work-input">
     <label for="category_work-input">Catégorie</label>
         <select>
+            <option disabled selected>Choisissez une catégorie</option>
             <option>Objets</option>
             <option>Appartements</option>
-            <option>Hôtel & restaurant</option>
+            <option>Hôtels & restaurants</option>
         </select>	
 </form>`;
-document.querySelector(".add-pics").setAttribute("value", "Valider");
-document.querySelector(".delete-a").style.display = "none";
-arrowLeft.addEventListener("click", function(){
+    document.querySelector(".add-pics").setAttribute("value", "Valider");
+    document.querySelector(".delete-a").style.display = "none";
+    
+    arrowLeft.addEventListener("click", function(){
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
     document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
     document.querySelector(".delete-a").style.display = "block";
     galleryModal.style.padding = "0px 0px 47px";
     galleryModal.style.borderBottom = "1px solid #B3B3B3";
-    arrowLeft.style.display = "none";
+    galleryModal.style.width = "420px";
+    arrowLeft.remove();
     addWorks();
-});
-}
+  });
+};
 
 function confirmDelete(workId){
     let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
@@ -121,4 +176,4 @@ function toggleModal(){
     addWorks();
 };
 
-export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete, generateAddModal};
+export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete, generateAddModal, addWorks, addCategory};
