@@ -9,4 +9,5 @@
  const logout = document.querySelector(".logout");
 const urlApi = "http://localhost:5678/api/";
 let titleModal = document.querySelector(".modal-title");
-export {gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, modal, urlApi, titleModal};
+let token = sessionStorage.getItem("token");
+export {gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, modal, urlApi, titleModal, token};

@@ -1,4 +1,4 @@
-import {urlApi} from "./variables.js";
+import {urlApi, token} from "./variables.js";
 
 async function getCategory(){
     const request = await fetch(urlApi + "categories",{
@@ -33,7 +33,6 @@ async function getCategory(){
 
 
 async function deleteWork(dataId){   
-    const token = localStorage.getItem("token");
     await fetch(urlApi + "works/" + dataId,{
         method: "DELETE",
         headers: {

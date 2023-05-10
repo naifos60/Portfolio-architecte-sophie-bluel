@@ -140,7 +140,6 @@ function generateAddModal(){
     <input type="text" id="title_work-input">
     <label for="category_work-input">Catégorie</label>
         <select class="modalCategory">
-            <option disabled selected>Choisissez une catégorie</option>
             <option>Objets</option>
             <option>Appartements</option>
             <option>Hôtels & restaurants</option>
@@ -166,9 +165,9 @@ function generateAddModal(){
   document.querySelector(".validate-pics").addEventListener("click", async (e) => {
     e.preventDefault();
     const category = document.querySelector(".modalCategory").value;
-    const image = document.querySelector("#file-input").value;
-    const title = document.querySelector("#title_work-input").value;
-    let token = sessionStorage.getItem("token");
+    const image = document.getElementById("file-input").value;
+    const title = document.getElementById("title_work-input").value;
+    
     console.log(title, image, category);
     const formData = new FormData();
     formData.append("title", title);
