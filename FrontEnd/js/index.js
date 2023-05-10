@@ -10,7 +10,7 @@ async function init(){
 
 /****** ajout initial de la gallerie ******/
 init();
-console.log(sessionStorage);
+console.log(localStorage);
 
 /****** listener edit ******/
 
@@ -23,6 +23,7 @@ modalTrigger.forEach(trigger => trigger.addEventListener("click", function(){
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
     document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
+    document.querySelector(".add-pics").classList.remove("validate-pics");
     document.querySelector(".delete-a").style.display = "block";
     galleryModal.style.padding = "0px 0px 47px";
     galleryModal.style.borderBottom = "1px solid #B3B3B3";

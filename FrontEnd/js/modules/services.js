@@ -11,18 +11,7 @@ async function getCategory(){
         throw new Error("ereur API");
     }
     const result = await request.json();
-    return result;
-    // }).then(category => {
-    //         filter.innerHTML =
-    //         `<input type="radio" id="filter-0" name="filter" checked>
-    //         <label for="filter-0"  class="0-filter" >Tous</label>`
-    //         +
-    //         category.map((category) => 
-    //             `<input type="radio" id="filter-${category.id}" name="filter">
-    //             <label for="filter-${category.id}"  class=${category.id}-filter">${category.name}</label>`
-    //         ).join("");
-    //         console.log(filter);
-    // });                      
+    return result;                     
 };
 
 
@@ -43,7 +32,7 @@ async function getCategory(){
 
 
 
-async function deleteWork(dataId){
+async function deleteWork(dataId){   
     const token = localStorage.getItem("token");
     await fetch(urlApi + "works/" + dataId,{
         method: "DELETE",
@@ -59,6 +48,5 @@ async function deleteWork(dataId){
         return deletes;
     })
 };
-
 
 export { deleteWork, getCategory, getWorks};

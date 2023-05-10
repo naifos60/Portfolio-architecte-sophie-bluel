@@ -1,4 +1,4 @@
-import { gallery, galleryModal, edited, modalContainer, modal, filter} from "../modules/variables.js";
+import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi} from "../modules/variables.js";
 import { deleteWork, getWorks, getCategory} from "./services.js";
 
 /**
@@ -139,7 +139,7 @@ function generateAddModal(){
     <label for="title_work-input">Titre</label>
     <input type="text" id="title_work-input">
     <label for="category_work-input">Catégorie</label>
-        <select>
+        <select class="modalCategory">
             <option disabled selected>Choisissez une catégorie</option>
             <option>Objets</option>
             <option>Appartements</option>
@@ -147,18 +147,42 @@ function generateAddModal(){
         </select>	
 </form>`;
     document.querySelector(".add-pics").setAttribute("value", "Valider");
+    document.querySelector(".add-pics").classList.add("validate-pics");
     document.querySelector(".delete-a").style.display = "none";
     
     arrowLeft.addEventListener("click", function(){
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
     document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
+    document.querySelector(".add-pics").classList.remove("validate-pics");
     document.querySelector(".delete-a").style.display = "block";
     galleryModal.style.padding = "0px 0px 47px";
     galleryModal.style.borderBottom = "1px solid #B3B3B3";
     galleryModal.style.width = "420px";
     arrowLeft.remove();
     addWorks();
+  });
+  /***** listener ajouter projet *****/
+  document.querySelector(".validate-pics").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const category = document.querySelector(".modalCategory").value;
+    const image = document.querySelector("#file-input").value;
+    const title = document.querySelector("#title_work-input").value;
+    let token = sessionStorage.getItem("token");
+    console.log(title, image, category);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("image", image);
+    formData.append("category", category);
+    console.log(formData);
+
+     await fetch(urlApi + "works",{
+        method : "POST",
+        headers : {
+            "Authorisation": "Bearer " + token
+        },
+        body: formData
+    });
   });
 };
 
