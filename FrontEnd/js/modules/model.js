@@ -1,4 +1,4 @@
-import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi} from "../modules/variables.js";
+import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token} from "../modules/variables.js";
 import { deleteWork, getWorks, getCategory} from "./services.js";
 
 /**
@@ -118,6 +118,35 @@ function modalGenerateWork(array){
     };
 };
 
+function addPicsOnLabel(){
+    const inputImg = document.querySelector(".file-project");
+    let file = inputImg.files[0];
+    console.log(file);
+    let preview = document.createElement("img");
+    preview.style.width= "129px";
+    preview.style.height= "100%";
+    preview.classList.add("preview-img");
+    preview.src = URL.createObjectURL(file);
+    document.querySelector(".file-input").innerHTML = "";      
+    document.querySelector(".file-input").appendChild(preview);
+};
+
+async function getFormData(){
+    const inputImg = document.querySelector(".file-project");
+    let file = inputImg.files[0];
+    const image = URL.createObjectURL(file);
+    const category = document.querySelector(".category-project").value;
+    const title = document.querySelector(".title-project").value;   
+    console.log(title, image, category);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("image", image);
+    formData.append("category", category);
+    console.log(formData);
+    return formData;
+}
+  
+
 function generateAddModal(){
     let arrowLeft = document.createElement("button");
     let titleModal = document.querySelector(".modal-title");
@@ -135,11 +164,11 @@ function generateAddModal(){
         <h4>+ Ajouter photo</h4>
         <p>jpg, png : 4mo max</p>
     </label>
-    <input type="file" id="file-input" accept=".jpg, .png">
+    <input type="file" id="file-input" accept=".jpg, .png" class="file-project">
     <label for="title_work-input">Titre</label>
-    <input type="text" id="title_work-input">
+    <input type="text" id="title_work-input" class="title-project">
     <label for="category_work-input">Catégorie</label>
-        <select class="modalCategory">
+        <select class="category-project">
             <option>Objets</option>
             <option>Appartements</option>
             <option>Hôtels & restaurants</option>
@@ -148,7 +177,6 @@ function generateAddModal(){
     document.querySelector(".add-pics").setAttribute("value", "Valider");
     document.querySelector(".add-pics").classList.add("validate-pics");
     document.querySelector(".delete-a").style.display = "none";
-    
     arrowLeft.addEventListener("click", function(){
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
@@ -161,18 +189,15 @@ function generateAddModal(){
     arrowLeft.remove();
     addWorks();
   });
+  /***** listener affichage image séléctionnée dans label *****/
+  document.querySelector(".file-project").addEventListener("input", function(e){
+    e.preventDefault();
+    addPicsOnLabel();
+  });
   /***** listener ajouter projet *****/
   document.querySelector(".validate-pics").addEventListener("click", async (e) => {
     e.preventDefault();
-    const category = document.querySelector(".modalCategory").value;
-    const image = document.getElementById("file-input").value;
-    const title = document.getElementById("title_work-input").value;
-    
-    console.log(title, image, category);
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("image", image);
-    formData.append("category", category);
+    const formData = await getFormData();
     console.log(formData);
 
      await fetch(urlApi + "works",{
@@ -184,6 +209,7 @@ function generateAddModal(){
     });
   });
 };
+    
 
 function confirmDelete(workId){
     let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
