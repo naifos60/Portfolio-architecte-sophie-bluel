@@ -185,7 +185,7 @@ function generateAddModal(){
     document.querySelector(".delete-a").style.display = "block";
     galleryModal.style.padding = "0px 0px 47px";
     galleryModal.style.borderBottom = "1px solid #B3B3B3";
-    galleryModal.style.width = "420px";
+    galleryModal.style.width = "420px";  
     arrowLeft.remove();
     addWorks();
   });
@@ -195,19 +195,19 @@ function generateAddModal(){
     addPicsOnLabel();
   });
   /***** listener ajouter projet *****/
-  document.querySelector(".validate-pics").addEventListener("click", async (e) => {
-    e.preventDefault();
-    const formData = await getFormData();
-    console.log(formData);
+//   document.querySelector(".validate-pics").addEventListener("click", async function(e){
+//     e.preventDefault();
+//     const formData = await getFormData();
+//     console.log(formData);
 
-     await fetch(urlApi + "works",{
-        method : "POST",
-        headers : {
-            "Authorisation": "Bearer " + token
-        },
-        body: formData
-    });
-  });
+//      await fetch(urlApi + "works",{
+//         method : "POST",
+//         headers : {
+//             "Authorisation": "Bearer " + token
+//         },
+//         body: formData
+//     });
+//   });
 };
     
 

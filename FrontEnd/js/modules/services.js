@@ -1,4 +1,5 @@
-import {urlApi, token} from "./variables.js";
+import {token, urlApi} from "./variables.js";
+import {addWorks} from "./model.js";
 
 async function getCategory(){
     const request = await fetch(urlApi + "categories",{
@@ -41,7 +42,6 @@ async function deleteWork(dataId){
         }
     }).then(response => {
         console.log(response.body);
-        return response.json();
     }).then(deletes => {
         console.log(deletes);
         return deletes;
