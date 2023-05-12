@@ -1,4 +1,4 @@
-import {token, urlApi} from "./variables.js";
+import {gallery, galleryModal, token, urlApi} from "./variables.js";
 import {addWorks} from "./model.js";
 
 async function getCategory(){
@@ -41,10 +41,12 @@ async function deleteWork(dataId){
             "Authorization": "Bearer " + token
         }
     }).then(response => {
-        console.log(response.body);
-    }).then(deletes => {
-        console.log(deletes);
-        return deletes;
+        if(response.ok){
+        gallery.innerHTML ="";
+        galleryModal.innerHTML = "";
+        addWorks();
+        console.log("projet supprimé avec succès.");
+        }
     })
 };
 

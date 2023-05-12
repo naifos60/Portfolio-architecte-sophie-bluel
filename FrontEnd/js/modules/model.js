@@ -1,4 +1,4 @@
-import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token} from "../modules/variables.js";
+import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token, formData} from "../modules/variables.js";
 import { deleteWork, getWorks, getCategory} from "./services.js";
 
 /**
@@ -129,23 +129,24 @@ function addPicsOnLabel(){
     preview.src = URL.createObjectURL(file);
     document.querySelector(".file-input").innerHTML = "";      
     document.querySelector(".file-input").appendChild(preview);
+    formData.append("image", file);
 };
 
-async function getFormData(){
-    const inputImg = document.querySelector(".file-project");
-    let file = inputImg.files[0];
-    const image = URL.createObjectURL(file);
-    const category = document.querySelector(".category-project").value;
-    const title = document.querySelector(".title-project").value;   
-    console.log(title, image, category);
-    const formData = new FormData();
+function getTitle(){
+    let inputTitle = document.querySelector("#title_work-input");
+    let title =inputTitle.value;
     formData.append("title", title);
-    formData.append("image", image);
+    console.log(title);
+    // return title;
+};
+
+function getCategorie(){
+    let inputCategory = document.querySelector(".category-project");
+    let category = inputCategory.value;
     formData.append("category", category);
-    console.log(formData);
-    return formData;
+    console.log(category);
+    // return category;
 }
-  
 
 function generateAddModal(){
     let arrowLeft = document.createElement("button");
@@ -169,14 +170,15 @@ function generateAddModal(){
     <input type="text" id="title_work-input" class="title-project">
     <label for="category_work-input">Catégorie</label>
         <select class="category-project">
-            <option>Objets</option>
-            <option>Appartements</option>
-            <option>Hôtels & restaurants</option>
+            <option data-id = '1'>Objets</option>
+            <option data-id = '2'>Appartements</option>
+            <option data-id = '3'>Hôtels & restaurants</option>
         </select>	
 </form>`;
     document.querySelector(".add-pics").setAttribute("value", "Valider");
     document.querySelector(".add-pics").classList.add("validate-pics");
     document.querySelector(".delete-a").style.display = "none";
+   /****** listener retour en arrière ******/
     arrowLeft.addEventListener("click", function(){
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
@@ -189,25 +191,32 @@ function generateAddModal(){
     arrowLeft.remove();
     addWorks();
   });
-  /***** listener affichage image séléctionnée dans label *****/
+
+  /***** listener affichage image séléctionnée dans label + append image formData *****/
   document.querySelector(".file-project").addEventListener("input", function(e){
     e.preventDefault();
-    addPicsOnLabel();
+   addPicsOnLabel();
   });
+  /***** listener recuperation titre + append title formData *****/
+  document.querySelector(".title-project").addEventListener("input", function(){
+    getTitle();
+  });
+  /***** listener recuperation category + append category formData *****/
+  document.querySelector(".category-project").addEventListener("input", function(){
+    getCategorie();
+  })
   /***** listener ajouter projet *****/
-//   document.querySelector(".validate-pics").addEventListener("click", async function(e){
-//     e.preventDefault();
-//     const formData = await getFormData();
-//     console.log(formData);
-
-//      await fetch(urlApi + "works",{
-//         method : "POST",
-//         headers : {
-//             "Authorisation": "Bearer " + token
-//         },
-//         body: formData
-//     });
-//   });
+  document.querySelector(".validate-pics").addEventListener("click", async function(e){
+    e.preventDefault();
+    console.log(formData);
+     await fetch(urlApi + "works",{
+        method : "POST",
+        headers : {
+            "Authorisation": "Bearer " + token
+        },
+        body: formData
+    });
+  });
 };
     
 
