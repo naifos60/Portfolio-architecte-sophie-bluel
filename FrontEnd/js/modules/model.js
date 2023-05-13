@@ -122,14 +122,12 @@ function modalGenerateWork(array){
 function getFile(){
     const inputImg = document.querySelector(".file-project");
     let file = inputImg.files[0];
-    console.log(file);
     return file;
 }
 
 function getTitle(){
     let inputTitle = document.querySelector("#title_work-input");
     let title =inputTitle.value;
-    console.log(title);
     return title;
 };
 
@@ -137,7 +135,6 @@ function getCategorie(){
 //    let category = await getCategory();
         let inputCategory = document.querySelector(".category-project");
         let categori = inputCategory.value;
-        console.log(categori);
         // let idObjet = category.filter(cat => cat.name == "Objets");
         // let idAppart = category.filter(cat => cat.name == "Appartements");
         let idObjet = "Objets";
@@ -149,13 +146,11 @@ function getCategorie(){
         }else{
             categori = "3";
         }
-    console.log(categori);
     return categori;
 };
 
 function addPicsOnLabel(){
     let file = getFile();
-    console.log(file);
     let preview = document.createElement("img");
     preview.style.width= "129px";
     preview.style.height= "100%";
