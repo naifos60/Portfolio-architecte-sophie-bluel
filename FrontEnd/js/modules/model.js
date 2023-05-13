@@ -198,7 +198,8 @@ async function generateAddModal(){
          </form>`         
      });
     document.querySelector(".delete-a").style.display = "none";
-   /****** listener retour en arrière ******/
+   
+    /****** listener retour en arrière ******/
     arrowLeft.addEventListener("click", function(){
     modal.style.padding = "48px";
     titleModal.innerHTML = "Galerie photo";
