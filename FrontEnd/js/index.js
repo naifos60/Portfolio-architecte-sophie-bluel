@@ -20,7 +20,7 @@ logout.addEventListener("click", function(){localStorage.removeItem("token");});
     
 modalTrigger.forEach(trigger => trigger.addEventListener("click", function(){
     toggleModal();
-    modal.style.padding = "48px 0px";
+    modal.style.padding = "48px";
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
     document.querySelector(".add-pics").style.display = "inline-block";

@@ -136,7 +136,8 @@ function getTitle(){
 function getCategorie(){
     let inputCategory = document.querySelector(".category-project");
     let category = inputCategory.value;
-    console.log(category);
+    let idCategory = category.dataset.id;
+    console.log(idCategory);
     return category;
 }
 function addPicsOnLabel(){
@@ -150,20 +151,22 @@ function addPicsOnLabel(){
     document.querySelector(".file-input").innerHTML = "";      
     document.querySelector(".file-input").appendChild(preview);
 };
-function generateAddModal(){
+async function generateAddModal(){
     let arrowLeft = document.createElement("button");
     let titleModal = document.querySelector(".modal-title");
     arrowLeft.classList.add("arrow-left");
     arrowLeft.innerHTML = `<i class="fa-solid fa-arrow-left"></i>`;
     modal.appendChild(arrowLeft);
-    modal.style.padding = "48px 0px 0px";
+    modal.style.padding = "48px 48px 0px";
     titleModal.innerHTML = "Ajout photo";
     galleryModal.style.border = "none";
     galleryModal.style.padding = "0";
     galleryModal.style.width = "auto";
     galleryModal.innerHTML = "";
     document.querySelector(".add-pics").style.display = "none";
-    galleryModal.innerHTML = `<form class="modal-add">
+     
+    await getCategory().then(category => {        
+        galleryModal.innerHTML = `<form class="modal-add">
     <label for="file-input" class="file-input">
         <i class="fa-solid fa-image"></i>
         <h4>+ Ajouter photo</h4>
@@ -173,25 +176,26 @@ function generateAddModal(){
     <label for="title_work-input">Titre</label>
     <input type="text" id="title_work-input" class="title-project">
     <label for="category_work-input">Catégorie</label>
-        <select class="category-project">
-            <option data-id = '1'>Objets</option>
-            <option data-id = '2'>Appartements</option>
-            <option data-id = '3'>Hôtels & restaurants</option>
-        </select>
-        <span></<span>
-        <input type='submit' class= 'validate-pics' value= 'valider'>
-</form>`;
-    // document.querySelector(".add-pics").setAttribute("value", "Valider");
-    // document.querySelector(".add-pics").classList.add("validate-pics");
+        <select class="category-project">`
+        +
+        category.map((category) => 
+        `<option data-id='${category.id}'>${category.name}</option>`)
+        .join("")
+        +
+        `
+         </select>
+         <span></<span>
+         <input type='submit' class= 'validate-pics' value= 'valider'>
+         </form>`         
+     });
     document.querySelector(".delete-a").style.display = "none";
    /****** listener retour en arrière ******/
     arrowLeft.addEventListener("click", function(){
-    modal.style.padding = "48px 0px";
+    modal.style.padding = "48px";
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
     document.querySelector(".add-pics").style.display = "inline-block";
     document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
-    // document.querySelector(".add-pics").classList.remove("validate-pics");
     document.querySelector(".delete-a").style.display = "block";
     galleryModal.style.padding = "0px 0px 47px";
     galleryModal.style.borderBottom = "1px solid #B3B3B3";
