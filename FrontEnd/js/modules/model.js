@@ -243,8 +243,6 @@ async function generateAddModal(){
     await fetch(urlApi + "works",{
         method : "POST",
         headers : {
-            "accept": "application/json",
-            "Content-Type": "multipart/form-data",
             "Authorization": "Bearer " + token
         },
         body: formData
@@ -253,7 +251,17 @@ async function generateAddModal(){
         console.log("projet ajouté avec succès");
         gallery.innerHTML = "";
         galleryModal.innerHTML = "";
+        modal.style.padding = "48px";
+       titleModal.innerHTML = "Galerie photo";
+        document.querySelector(".add-pics").style.display = "inline-block";
+        document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
+        document.querySelector(".delete-a").style.display = "block";
+        galleryModal.style.padding = "0px 0px 47px";
+        galleryModal.style.borderBottom = "1px solid #B3B3B3";
+        galleryModal.style.width = "420px";  
+        arrowLeft.remove();
         addWorks();
+
        }else{
         console.log(response.status);
        }
