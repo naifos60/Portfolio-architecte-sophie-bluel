@@ -1,4 +1,4 @@
-import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token, formData} from "../modules/variables.js";
+import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token} from "../modules/variables.js";
 import { deleteWork, getWorks, getCategory} from "./services.js";
 
 /**
@@ -118,9 +118,29 @@ function modalGenerateWork(array){
     };
 };
 
-function addPicsOnLabel(){
+
+function getFile(){
     const inputImg = document.querySelector(".file-project");
     let file = inputImg.files[0];
+    console.log(file);
+    return file;
+}
+
+function getTitle(){
+    let inputTitle = document.querySelector("#title_work-input");
+    let title =inputTitle.value;
+    console.log(title);
+    return title;
+};
+
+function getCategorie(){
+    let inputCategory = document.querySelector(".category-project");
+    let category = inputCategory.value;
+    console.log(category);
+    return category;
+}
+function addPicsOnLabel(){
+    let file = getFile();
     console.log(file);
     let preview = document.createElement("img");
     preview.style.width= "129px";
@@ -129,36 +149,20 @@ function addPicsOnLabel(){
     preview.src = URL.createObjectURL(file);
     document.querySelector(".file-input").innerHTML = "";      
     document.querySelector(".file-input").appendChild(preview);
-    formData.append("image", file);
 };
-
-function getTitle(){
-    let inputTitle = document.querySelector("#title_work-input");
-    let title =inputTitle.value;
-    formData.append("title", title);
-    console.log(title);
-    // return title;
-};
-
-function getCategorie(){
-    let inputCategory = document.querySelector(".category-project");
-    let category = inputCategory.value;
-    formData.append("category", category);
-    console.log(category);
-    // return category;
-}
-
 function generateAddModal(){
     let arrowLeft = document.createElement("button");
     let titleModal = document.querySelector(".modal-title");
     arrowLeft.classList.add("arrow-left");
     arrowLeft.innerHTML = `<i class="fa-solid fa-arrow-left"></i>`;
     modal.appendChild(arrowLeft);
+    modal.style.padding = "48px 0px 0px";
     titleModal.innerHTML = "Ajout photo";
     galleryModal.style.border = "none";
     galleryModal.style.padding = "0";
     galleryModal.style.width = "auto";
     galleryModal.innerHTML = "";
+    document.querySelector(".add-pics").style.display = "none";
     galleryModal.innerHTML = `<form class="modal-add">
     <label for="file-input" class="file-input">
         <i class="fa-solid fa-image"></i>
@@ -173,17 +177,21 @@ function generateAddModal(){
             <option data-id = '1'>Objets</option>
             <option data-id = '2'>Appartements</option>
             <option data-id = '3'>Hôtels & restaurants</option>
-        </select>	
+        </select>
+        <span></<span>
+        <input type='submit' class= 'validate-pics' value= 'valider'>
 </form>`;
-    document.querySelector(".add-pics").setAttribute("value", "Valider");
-    document.querySelector(".add-pics").classList.add("validate-pics");
+    // document.querySelector(".add-pics").setAttribute("value", "Valider");
+    // document.querySelector(".add-pics").classList.add("validate-pics");
     document.querySelector(".delete-a").style.display = "none";
    /****** listener retour en arrière ******/
     arrowLeft.addEventListener("click", function(){
+    modal.style.padding = "48px 0px";
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
+    document.querySelector(".add-pics").style.display = "inline-block";
     document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
-    document.querySelector(".add-pics").classList.remove("validate-pics");
+    // document.querySelector(".add-pics").classList.remove("validate-pics");
     document.querySelector(".delete-a").style.display = "block";
     galleryModal.style.padding = "0px 0px 47px";
     galleryModal.style.borderBottom = "1px solid #B3B3B3";
@@ -208,8 +216,17 @@ function generateAddModal(){
   /***** listener ajouter projet *****/
   document.querySelector(".validate-pics").addEventListener("click", async function(e){
     e.preventDefault();
+    const formData = new FormData();
+    const image = getFile();
+    const title = getTitle();
+    const category = getCategorie();
+    console.log(image, title, category);
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("category", category);
     console.log(formData);
-     await fetch(urlApi + "works",{
+     
+    await fetch(urlApi + "works",{
         method : "POST",
         headers : {
             "Authorisation": "Bearer " + token

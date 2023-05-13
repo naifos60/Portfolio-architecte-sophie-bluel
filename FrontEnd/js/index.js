@@ -1,4 +1,4 @@
-import {modalTrigger, logout, titleModal, galleryModal} from "./modules/variables.js";
+import {modalTrigger, logout, titleModal, galleryModal,modal} from "./modules/variables.js";
 import {edit, toggleModal, generateAddModal, addWorks, addCategory} from "./modules/model.js";
 
 
@@ -20,8 +20,10 @@ logout.addEventListener("click", function(){localStorage.removeItem("token");});
     
 modalTrigger.forEach(trigger => trigger.addEventListener("click", function(){
     toggleModal();
+    modal.style.padding = "48px 0px";
     titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
+    document.querySelector(".add-pics").style.display = "inline-block";
     document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
     document.querySelector(".add-pics").classList.remove("validate-pics");
     document.querySelector(".delete-a").style.display = "block";

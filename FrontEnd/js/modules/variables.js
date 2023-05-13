@@ -10,5 +10,4 @@
 const urlApi = "http://localhost:5678/api/";
 let titleModal = document.querySelector(".modal-title");
 let token = localStorage.getItem("token");
-let formData = new FormData();
-export {gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, modal, urlApi, titleModal, token, formData};
+export {gallery, galleryModal, filter, edited, modalContainer, modalTrigger, logout, modal, urlApi, titleModal, token};
