@@ -235,9 +235,9 @@ async function generateAddModal(){
     const title = getTitle();
     const category = getCategorie();
     console.log(image, title, category);
-    formData.append("image=", image);
-    formData.append("title=", title);
-    formData.append("category=", category);
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("category", category);
     console.log(formData);
      
     await fetch(urlApi + "works",{
@@ -245,7 +245,7 @@ async function generateAddModal(){
         headers : {
             "accept": "application/json",
             "Content-Type": "multipart/form-data",
-            "Authorisation": "Bearer " + token
+            "Authorization": "Bearer " + token
         },
         body: formData
     }).then(response => {
