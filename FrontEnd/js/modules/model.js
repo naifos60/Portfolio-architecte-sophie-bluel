@@ -133,13 +133,26 @@ function getTitle(){
     return title;
 };
 
-function getCategorie(){
-    let inputCategory = document.querySelector(".category-project");
-    let category = inputCategory.value;
-    let idCategory = category.dataset.id;
-    console.log(idCategory);
-    return category;
-}
+function getCategorie(){   
+//    let category = await getCategory();
+        let inputCategory = document.querySelector(".category-project");
+        let categori = inputCategory.value;
+        console.log(categori);
+        // let idObjet = category.filter(cat => cat.name == "Objets");
+        // let idAppart = category.filter(cat => cat.name == "Appartements");
+        let idObjet = "Objets";
+        let idAppart = "Appartements";
+        if(categori == idObjet){
+            categori = "1";
+        }else if(categori == idAppart){
+            categori = "2";
+        }else{
+            categori = "3";
+        }
+    console.log(categori);
+    return categori;
+};
+
 function addPicsOnLabel(){
     let file = getFile();
     console.log(file);
@@ -151,6 +164,7 @@ function addPicsOnLabel(){
     document.querySelector(".file-input").innerHTML = "";      
     document.querySelector(".file-input").appendChild(preview);
 };
+
 async function generateAddModal(){
     let arrowLeft = document.createElement("button");
     let titleModal = document.querySelector(".modal-title");
@@ -236,11 +250,20 @@ async function generateAddModal(){
             "Authorisation": "Bearer " + token
         },
         body: formData
-    });
+    }).then(response => {
+        if(response.ok){
+        console.log("projet ajouté avec succès");
+        gallery.innerHTML = "";
+        galleryModal.innerHTML = "";
+        addWorks();
+       }else{
+        console.log(response.status);
+       }
+    })
   });
+  
 };
     
-
 function confirmDelete(workId){
     let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
     if(result){
