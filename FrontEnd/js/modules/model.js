@@ -140,11 +140,11 @@ function getCategorie(){
         let idObjet = "Objets";
         let idAppart = "Appartements";
         if(categori == idObjet){
-            categori = "1";
+            categori = 1;
         }else if(categori == idAppart){
-            categori = "2";
+            categori = 2;
         }else{
-            categori = "3";
+            categori = 3;
         }
     return categori;
 };
