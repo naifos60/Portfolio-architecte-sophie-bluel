@@ -50,4 +50,16 @@ async function deleteWork(dataId){
     })
 };
 
-export { deleteWork, getCategory, getWorks};
+async function postWorks(data){
+    await fetch(urlApi + "works",{
+        method : "POST",
+        headers : {
+            "Authorization": "Bearer " + token
+        },
+        body: data
+    }).then(response => {
+        return response.json();
+    })
+}
+
+export { deleteWork, getCategory, getWorks, postWorks};

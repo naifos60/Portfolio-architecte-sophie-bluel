@@ -14,7 +14,7 @@ console.log(localStorage);
 
 /****** listener edit ******/
 
-logout.addEventListener("click", function(){localStorage.removeItem("token");});
+logout.addEventListener("click", function(){localStorage.removeItem("token")});
 
 /****** listener modal ******/
     

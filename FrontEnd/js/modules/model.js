@@ -1,5 +1,5 @@
 import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token} from "../modules/variables.js";
-import { deleteWork, getWorks, getCategory} from "./services.js";
+import { deleteWork, getWorks, getCategory, postWorks} from "./services.js";
 
 /**
  * la fonction prend un tableau comme argument puis récupère
@@ -132,21 +132,24 @@ function getTitle(){
 };
 
 function getCategorie(){   
-//    let category = await getCategory();
         let inputCategory = document.querySelector(".category-project");
-        let categori = inputCategory.value;
-        // let idObjet = category.filter(cat => cat.name == "Objets");
-        // let idAppart = category.filter(cat => cat.name == "Appartements");
-        let idObjet = "Objets";
-        let idAppart = "Appartements";
-        if(categori == idObjet){
-            categori = 1;
-        }else if(categori == idAppart){
-            categori = 2;
-        }else{
-            categori = 3;
-        }
-    return categori;
+        let category = inputCategory.value;
+    return category;
+};
+
+function validForm(){
+    const img = document.querySelector(".file-project").files[0];
+    const title = document.querySelector(".title-project").value;
+    const cat = document.querySelector(".category-project").value;
+    if(img != undefined && title != "" && cat != "default"){
+        document.querySelector(".validate-pics").classList.remove("disabled");
+        document.querySelector(".validate-pics").classList.add("enabled");
+        document.querySelector(".validate-pics").removeAttribute("disabled");
+    }else{
+        document.querySelector(".validate-pics").classList.add("disabled");
+        document.querySelector(".validate-pics").classList.remove("enabled");
+        document.querySelector(".validate-pics").setAttribute("disabled",true);
+    }
 };
 
 function addPicsOnLabel(){
@@ -181,20 +184,21 @@ async function generateAddModal(){
         <h4>+ Ajouter photo</h4>
         <p>jpg, png : 4mo max</p>
     </label>
-    <input type="file" id="file-input" accept=".jpg, .png" class="file-project">
+    <input type="file" id="file-input" accept=".jpg, .png" class="file-project" required>
     <label for="title_work-input">Titre</label>
-    <input type="text" id="title_work-input" class="title-project">
+    <input type="text" id="title_work-input" class="title-project" required>
     <label for="category_work-input">Catégorie</label>
-        <select class="category-project">`
+        <select class="category-project" required>
+        <option value='default' selected></option>`
         +
         category.map((category) => 
-        `<option data-id='${category.id}'>${category.name}</option>`)
+        `<option value='${category.id}'>${category.name}</option>`)
         .join("")
         +
         `
          </select>
          <span></<span>
-         <input type='submit' class= 'validate-pics' value= 'valider'>
+         <input type='submit' class= 'validate-pics disabled' value= 'valider' disabled>
          </form>`         
      });
     document.querySelector(".delete-a").style.display = "none";
@@ -218,14 +222,17 @@ async function generateAddModal(){
   document.querySelector(".file-project").addEventListener("input", function(e){
     e.preventDefault();
    addPicsOnLabel();
+   validForm();
   });
   /***** listener recuperation titre + append title formData *****/
   document.querySelector(".title-project").addEventListener("input", function(){
     getTitle();
+    validForm();
   });
   /***** listener recuperation category + append category formData *****/
   document.querySelector(".category-project").addEventListener("input", function(){
     getCategorie();
+    validForm();
   })
   /***** listener ajouter projet *****/
   document.querySelector(".validate-pics").addEventListener("click", async function(e){
@@ -252,7 +259,7 @@ async function generateAddModal(){
         gallery.innerHTML = "";
         galleryModal.innerHTML = "";
         modal.style.padding = "48px";
-       titleModal.innerHTML = "Galerie photo";
+        titleModal.innerHTML = "Galerie photo";
         document.querySelector(".add-pics").style.display = "inline-block";
         document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
         document.querySelector(".delete-a").style.display = "block";
@@ -264,8 +271,13 @@ async function generateAddModal(){
 
        }else{
         console.log(response.status);
+        alert(`Échec de la création du projet.
+         L'image doit être au format png ou jpg,
+         d'une taille maximum de 4mo.
+         Le titre du projet et sa catégorie 
+         doivent obligatoirement être renseignés.`);
        }
-    })
+     });
   });
   
 };
