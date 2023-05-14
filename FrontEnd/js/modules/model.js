@@ -21,6 +21,7 @@ import {deleteWork, getWorks, getCategory, postWorks} from "./services.js";
     }
 };
 
+/** cette fonction récupère les projets sur l'API puis les affiches dans les galleries selon la condition qui est respectée au moment de l'appel de la fonction */
 async function addWorks(){
      await getWorks().then(datas => {
             const allFilters = document.querySelector("#filter-0");   
@@ -57,6 +58,7 @@ async function addWorks(){
     })
 };
 
+/** cette fonction récupère les catégories disponible dans l'API puis ajoute un filtre pour chaque catégorie */
 async function addCategory(){
     await getCategory().then(category => {
         filter.innerHTML =
@@ -71,7 +73,7 @@ async function addCategory(){
 };
 
 
-
+/** cette fonction vérifie qu'un token a bien était généré et affiche tout les éléments caché du mode édition ou les caches */
 function edit(){
     let token = localStorage.getItem("token");
     if(token != null){
@@ -93,6 +95,8 @@ function edit(){
     };
 };
 
+/** cette fonction prend en paramètre un tableau d'éléments puis génère la galerie de la modal
+ * En créant une image un button delete et un lien éditer pour chaque éléments */
 function modalGenerateWork(array){
     for(let i = 0; i < array.length; i++){
         let figure = document.createElement("figure");
@@ -134,24 +138,28 @@ function toggleModal(){
     addWorks();
 };
 
+/** cette fonction récupère le chemin d'accès de l'mage uploader par l'utilisateur */
 function getFile(){
     const inputImg = document.querySelector(".file-project");
     let file = inputImg.files[0];
     return file;
 }
 
+/** cette fonction récupère le titre entrée par l'utilisateur */
 function getTitle(){
     let inputTitle = document.querySelector("#title_work-input");
     let title =inputTitle.value;
     return title;
 };
 
+/** cette fonction récupère la catégorie choisie par l'utilisateur */
 function getCategorie(){   
         let inputCategory = document.querySelector(".category-project");
         let category = inputCategory.value;
     return category;
 };
 
+/** cette fonction permet de rendre le submit du formulaire cliquable par l'utilisateur en vérifiant que les données nécessaire à l'envoie sont toutes présentes */
 function validForm(){
     const img = document.querySelector(".file-project").files[0];
     const title = document.querySelector(".title-project").value;
@@ -167,6 +175,7 @@ function validForm(){
     }
 };
 
+/** cette fonction récupère l'image uploader par l'utilisateur et l'affiche dans le label */
 function addPicsOnLabel(){
     let file = getFile();
     let preview = document.createElement("img");
@@ -178,6 +187,7 @@ function addPicsOnLabel(){
     document.querySelector(".file-input").appendChild(preview);
 };
 
+/** cette fonction re génère dynamiquement la première interface notre modal la suppression de projets */
 function returnFirstModal(){
     let titleModal = document.querySelector(".modal-title");
     modal.style.padding = "48px";
@@ -191,6 +201,7 @@ function returnFirstModal(){
     galleryModal.style.width = "420px";  
 };
 
+/** cette fonction créer le formData du projet créer et envoie sont contenue à l'API */
 async function addProject(){
     const formData = new FormData();
     const image = getFile();
@@ -219,6 +230,7 @@ async function addProject(){
     });
 };
 
+/** cette fonction récupère les categories et leur id puis génère les options du select de notre formulaire */
 async function addSelect(){
     await getCategory().then(category => {        
         galleryModal.innerHTML = `<form class="modal-add">
@@ -246,6 +258,7 @@ async function addSelect(){
      });
 };
 
+/** cette fonction génère la deuxième interface de notre modal l'ajout de projet et inclu les listeners des différents éléments */
 async function generateAddModal(){
     let arrowLeft = document.createElement("button");
     let titleModal = document.querySelector(".modal-title");
