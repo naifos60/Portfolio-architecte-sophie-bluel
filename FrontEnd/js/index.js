@@ -10,7 +10,6 @@ async function init(){
 
 /****** ajout initial de la gallerie ******/
 init();
-console.log(localStorage);
 
 /****** listener edit ******/
 
