@@ -1,5 +1,5 @@
-import { gallery, galleryModal, edited, modalContainer, modal, filter, urlApi, token} from "../modules/variables.js";
-import { deleteWork, getWorks, getCategory, postWorks} from "./services.js";
+import {gallery, galleryModal, edited, modalContainer, modal, filter} from "../modules/variables.js";
+import {deleteWork, getWorks, getCategory, postWorks} from "./services.js";
 
 /**
  * la fonction prend un tableau comme argument puis récupère
@@ -118,6 +118,21 @@ function modalGenerateWork(array){
     };
 };
 
+  /** cette fonction ouvre une fenêtre de confirmation à l'utilisateur et appelle la fonction qui supprime les projets en cas de confirmation de l'utilisateur */  
+function confirmDelete(workId){
+    let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
+    if(result){
+        deleteWork(workId);
+    }else{
+        console.log("suppression annulée");
+    }
+};
+
+/** cette fonction ajoute ou retire la classe active au modal  container et affiche les projets  */
+function toggleModal(){
+    modalContainer.classList.toggle("active");
+    addWorks();
+};
 
 function getFile(){
     const inputImg = document.querySelector(".file-project");
@@ -163,20 +178,48 @@ function addPicsOnLabel(){
     document.querySelector(".file-input").appendChild(preview);
 };
 
-async function generateAddModal(){
-    let arrowLeft = document.createElement("button");
+function returnFirstModal(){
     let titleModal = document.querySelector(".modal-title");
-    arrowLeft.classList.add("arrow-left");
-    arrowLeft.innerHTML = `<i class="fa-solid fa-arrow-left"></i>`;
-    modal.appendChild(arrowLeft);
-    modal.style.padding = "48px 48px 0px";
-    titleModal.innerHTML = "Ajout photo";
-    galleryModal.style.border = "none";
-    galleryModal.style.padding = "0";
-    galleryModal.style.width = "auto";
+    modal.style.padding = "48px";
+    titleModal.innerHTML = "Galerie photo";
     galleryModal.innerHTML = "";
-    document.querySelector(".add-pics").style.display = "none";
+    document.querySelector(".add-pics").style.display = "inline-block";
+    document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
+    document.querySelector(".delete-a").style.display = "block";
+    galleryModal.style.padding = "0px 0px 47px";
+    galleryModal.style.borderBottom = "1px solid #B3B3B3";
+    galleryModal.style.width = "420px";  
+};
+
+async function addProject(){
+    const formData = new FormData();
+    const image = getFile();
+    const title = getTitle();
+    const category = getCategorie();
+    const arrowLeft = document.querySelector(".arrow-left");
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("category", category);
      
+    await postWorks(formData).then(response => {
+        if(response != Error){
+        console.log("projet ajouté avec succès");
+        gallery.innerHTML = "";
+        returnFirstModal();      
+        arrowLeft.remove();
+        addWorks();
+       }else{
+        console.log(response.status);
+        alert(`Échec de la création du projet.
+         L'image doit être au format png ou jpg,
+         d'une taille maximum de 4mo.
+         Le titre du projet et sa catégorie 
+         doivent obligatoirement être renseignés.`);
+       }
+    });
+};
+
+async function addSelect(){
     await getCategory().then(category => {        
         galleryModal.innerHTML = `<form class="modal-add">
     <label for="file-input" class="file-input">
@@ -201,28 +244,35 @@ async function generateAddModal(){
          <input type='submit' class= 'validate-pics disabled' value= 'valider' disabled>
          </form>`         
      });
-    document.querySelector(".delete-a").style.display = "none";
-   
-    /****** listener retour en arrière ******/
-    arrowLeft.addEventListener("click", function(){
-    modal.style.padding = "48px";
-    titleModal.innerHTML = "Galerie photo";
-    galleryModal.innerHTML = "";
-    document.querySelector(".add-pics").style.display = "inline-block";
-    document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
-    document.querySelector(".delete-a").style.display = "block";
-    galleryModal.style.padding = "0px 0px 47px";
-    galleryModal.style.borderBottom = "1px solid #B3B3B3";
-    galleryModal.style.width = "420px";  
-    arrowLeft.remove();
-    addWorks();
-  });
+};
 
+async function generateAddModal(){
+    let arrowLeft = document.createElement("button");
+    let titleModal = document.querySelector(".modal-title");
+    arrowLeft.classList.add("arrow-left");
+    arrowLeft.innerHTML = `<i class="fa-solid fa-arrow-left"></i>`;
+    modal.appendChild(arrowLeft);
+    modal.style.padding = "48px 48px 0px";
+    titleModal.innerHTML = "Ajout photo";
+    galleryModal.style.border = "none";
+    galleryModal.style.padding = "0";
+    galleryModal.style.width = "auto";
+    galleryModal.innerHTML = "";
+    document.querySelector(".add-pics").style.display = "none";
+    document.querySelector(".delete-a").style.display = "none";
+    await addSelect();
+
+   /****** listener retour en arrière ******/
+    arrowLeft.addEventListener("click", function(){
+        returnFirstModal();  
+        arrowLeft.remove();
+        addWorks();
+  });
   /***** listener affichage image séléctionnée dans label + append image formData *****/
   document.querySelector(".file-project").addEventListener("input", function(e){
     e.preventDefault();
-   addPicsOnLabel();
-   validForm();
+    addPicsOnLabel();
+    validForm();
   });
   /***** listener recuperation titre + append title formData *****/
   document.querySelector(".title-project").addEventListener("input", function(){
@@ -237,61 +287,11 @@ async function generateAddModal(){
   /***** listener ajouter projet *****/
   document.querySelector(".validate-pics").addEventListener("click", async function(e){
     e.preventDefault();
-    const formData = new FormData();
-    const image = getFile();
-    const title = getTitle();
-    const category = getCategorie();
-    formData.append("image", image);
-    formData.append("title", title);
-    formData.append("category", category);
-     
-    await fetch(urlApi + "works",{
-        method : "POST",
-        headers : {
-            "Authorization": "Bearer " + token
-        },
-        body: formData
-    }).then(response => {
-        if(response.ok){
-        console.log("projet ajouté avec succès");
-        gallery.innerHTML = "";
-        galleryModal.innerHTML = "";
-        modal.style.padding = "48px";
-        titleModal.innerHTML = "Galerie photo";
-        document.querySelector(".add-pics").style.display = "inline-block";
-        document.querySelector(".add-pics").setAttribute("value", "Ajouter une photo");
-        document.querySelector(".delete-a").style.display = "block";
-        galleryModal.style.padding = "0px 0px 47px";
-        galleryModal.style.borderBottom = "1px solid #B3B3B3";
-        galleryModal.style.width = "420px";  
-        arrowLeft.remove();
-        addWorks();
-
-       }else{
-        console.log(response.status);
-        alert(`Échec de la création du projet.
-         L'image doit être au format png ou jpg,
-         d'une taille maximum de 4mo.
-         Le titre du projet et sa catégorie 
-         doivent obligatoirement être renseignés.`);
-       }
-     });
-  });
-  
-};
-    
-function confirmDelete(workId){
-    let result = confirm("Voulez-vous vraiment supprimer le projet "+ workId);
-    if(result){
-        deleteWork(workId);
-    }else{
-        console.log("suppression annulée");
-    }
+    addProject();
+  }); 
 };
 
-function toggleModal(){
-    modalContainer.classList.toggle("active");
-    addWorks();
-};
 
-export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete, generateAddModal, addWorks, addCategory};
+
+
+export {generateWork, edit, modalGenerateWork, toggleModal, confirmDelete, generateAddModal, addWorks, addCategory, returnFirstModal};
