@@ -46,6 +46,8 @@ async function deleteWork(dataId){
         galleryModal.innerHTML = "";
         addWorks();
         console.log("projet supprimé avec succès.");
+        }else if(response.status === "401"){
+            window.location.assign("login.html");
         }
     })
 };
@@ -61,6 +63,8 @@ async function postWorks(data){
     })
     if(!request.ok){
         throw new Error("ereur API");
+    }else if(request.status === "401"){
+        window.location.assign("login.html");
     }
     const result = await request.json();
     return result;

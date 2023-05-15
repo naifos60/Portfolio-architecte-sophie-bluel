@@ -32,7 +32,8 @@ async function addWorks(){
             const appartement = datas.filter(data => data.categoryId === 2);
             const hotel = datas.filter(data => data.categoryId === 3);
             if(modalContainer.classList.contains("active")){
-                modalGenerateWork(datas);                               
+                modalGenerateWork(datas); 
+                generateWork(datas);                              
             }else if(gallery.firstElementChild == undefined){
                 generateWork(datas);
             }else{

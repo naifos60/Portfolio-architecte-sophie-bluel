@@ -22,6 +22,8 @@
                 localStorage.clear();
                 localStorage.setItem("token", generateToken); 
             })          
+        }else if(response.status === "401"){
+            window.location.assign("login.html");
         }else{
             document.querySelector(".error_message").style.display = "block";
            console.log(response.body); 
