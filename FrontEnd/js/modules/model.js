@@ -193,6 +193,8 @@ function validForm(){
         alertFormatImg();
     }
 };
+
+/** cette fonction génère les éléments du messages d'erreur du controle du format de l'image uploader par l'utilisateur */
 function alertFormatImg(){
     const formatImg = document.createElement("div");
         const buttonAdd = document.createElement("div");
@@ -209,12 +211,12 @@ function alertFormatImg(){
         alert.innerHTML = "";
         formatImg.innerHTML = "";
         formatImg.innerHTML =`
-        *Format invalide!
-        Veuillez séléctionner un autre fichier.
+        *** Format invalide ***
+        Veuillez séléctionner un fichier
         (.png ou .jpg)`;
          
         formatImg.style.color = "red";
-        formatImg.style.fontSize = "25px";
+        formatImg.style.fontSize = "27px";
         formatImg.style.lineHeight = "40px";
         formatImg.style.border = "1px solid red";
         formatImg.style.background = "#ffffff";
