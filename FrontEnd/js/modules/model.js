@@ -178,8 +178,10 @@ function validForm(){
 };
 
 /** cette fonction récupère l'image uploader par l'utilisateur et l'affiche dans le label */
-function addPicsOnLabel(){
-    let file = getFile();
+ async function addPicsOnLabel(){
+    let file = await getFile();
+    console.log(file);
+    if(file.type === "image/png" || file.type === "image/jpg"){
     let preview = document.createElement("img");
     preview.style.width= "129px";
     preview.style.height= "100%";
@@ -187,6 +189,39 @@ function addPicsOnLabel(){
     preview.src = URL.createObjectURL(file);
     document.querySelector(".file-input").innerHTML = "";      
     document.querySelector(".file-input").appendChild(preview);
+    }else{
+        alertFormatImg();
+    }
+};
+function alertFormatImg(){
+    const formatImg = document.createElement("div");
+        const buttonAdd = document.createElement("div");
+        const alert = document.querySelector(".file-input");
+        buttonAdd.innerHTML= "+ Ajouter photo";
+        buttonAdd.style.borderRadius = "60px";
+        buttonAdd.style.width = "150px";
+        buttonAdd.style.height = "30px";
+        buttonAdd.style.background = "#1D6154";
+        buttonAdd.style.color = "#ffffff";
+        buttonAdd.style.margin = "10px auto";
+        buttonAdd.style.fontSize = "14px";
+        buttonAdd.style.lineHeight = "29px";
+        alert.innerHTML = "";
+        formatImg.innerHTML = "";
+        formatImg.innerHTML =`
+        *Format invalide!
+        Veuillez séléctionner un autre fichier.
+        (.png ou .jpg)`;
+         
+        formatImg.style.color = "red";
+        formatImg.style.fontSize = "25px";
+        formatImg.style.lineHeight = "40px";
+        formatImg.style.border = "1px solid red";
+        formatImg.style.background = "#ffffff";
+        formatImg.style.height = "100%";
+        formatImg.style.textAlign = "center"
+        alert.appendChild(formatImg);
+        formatImg.appendChild(buttonAdd);
 };
 
 /** cette fonction re génère dynamiquement la première interface notre modal la suppression de projets */
@@ -239,7 +274,7 @@ async function addSelect(){
     <label for="file-input" class="file-input">
         <i class="fa-solid fa-image"></i>
         <h4>+ Ajouter photo</h4>
-        <p>jpg, png : 4mo max</p>
+        <p class="extension">jpg, png : 4mo max</p>
     </label>
     <input type="file" id="file-input" accept=".jpg, .png" class="file-project" required>
     <label for="title_work-input">Titre</label>
@@ -284,9 +319,9 @@ async function generateAddModal(){
         addWorks();
   });
   /***** listener affichage image séléctionnée dans label + append image formData *****/
-  document.querySelector(".file-project").addEventListener("input", function(e){
+  document.querySelector(".file-project").addEventListener("input", async function(e){
     e.preventDefault();
-    addPicsOnLabel();
+   await addPicsOnLabel();
     validForm();
   });
   /***** listener recuperation titre + append title formData *****/
