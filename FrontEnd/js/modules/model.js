@@ -180,7 +180,6 @@ function validForm(){
 /** cette fonction récupère l'image uploader par l'utilisateur et l'affiche dans le label */
  async function addPicsOnLabel(){
     let file = await getFile();
-    console.log(file);
     if(file.type === "image/png" || file.type === "image/jpg"){
     let preview = document.createElement("img");
     preview.style.width= "129px";

@@ -26,10 +26,8 @@
             window.location.assign("login.html");
         }else{
             document.querySelector(".error_message").style.display = "block";
-           console.log(response.body); 
         }
     })
-    console.log(identify);
 };
 /********* ajout listener submit *********/
 document.querySelector(".submit_form").addEventListener("click", function(e){
